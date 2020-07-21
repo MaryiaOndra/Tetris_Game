@@ -17,7 +17,7 @@ namespace Application
             _y = y;
         }
 
-        internal void Draw() 
+        internal void DrawPoint() 
         {
             Console.SetCursorPosition(_x, _y);
             Console.Write(symbol);
