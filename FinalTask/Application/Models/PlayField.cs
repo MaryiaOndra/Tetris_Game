@@ -6,22 +6,19 @@ namespace Application.Models
 {
     class PlayField
     {
-        private Point _point;
-        private int fieldWidth = 30;
-        private int fieldHeight = 20;
         static private int posX = PlayFieldConst.BorderXPos;
         static private int posY = PlayFieldConst.BorderYPos;
 
         public void DrawPlayField() 
         {
             DrawVerticalLine(posX, posY);
-            DrawHorizontalLine(posX, fieldHeight);
-            DrawVerticalLine(posX + fieldWidth, posY);
+            DrawHorizontalLine(posX, PlayFieldConst.FieldHeight);
+            DrawVerticalLine(posX + PlayFieldConst.FieldWidth, posY);
         }
 
         public void DrawVerticalLine(int posX, int posY) 
         {
-            char[] verticalLine = new char[fieldHeight];
+            char[] verticalLine = new char[PlayFieldConst.FieldHeight];
 
             for (int i = 0; i < verticalLine.Length; i++)
             {
@@ -36,7 +33,7 @@ namespace Application.Models
         public void DrawHorizontalLine(int posX, int posY) 
         {
             Console.SetCursorPosition(posX, posY);
-            Console.WriteLine(new string(PlayFieldConst.SymBorder, fieldWidth + 1));            
+            Console.WriteLine(new string(PlayFieldConst.SymBorder, PlayFieldConst.FieldWidth + 1));            
         }
     }
 }

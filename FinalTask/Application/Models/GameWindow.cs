@@ -8,12 +8,14 @@ namespace Application.Models
     {
         public GameWindow()
         {
-            SetBufferSize();
+            SetWindowParameters();
         }
                 
-        public void SetBufferSize() 
+        public void SetWindowParameters() 
         {
+            Console.SetWindowSize(GameWindowConst.WindowWidth, GameWindowConst.WindowHeight);
             Console.SetBufferSize(GameWindowConst.WindowWidth, GameWindowConst.WindowHeight);
+            //Console.CursorVisible = false;
         }
     }
 }

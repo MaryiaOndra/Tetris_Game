@@ -10,10 +10,12 @@ namespace Application
         public const int WindowHeight = 30;
     }
 
-    public static class PlayFieldConst 
+    public static class PlayFieldConst
     {
         public const char SymBorder = '#';
-        public const int BorderXPos = GameWindowConst.WindowWidth / 4;
+        public const int BorderXPos = (GameWindowConst.WindowWidth - FieldWidth) / 2;
         public const int BorderYPos = 0;
+        public const int FieldWidth = 30;
+        public const int FieldHeight = 20;
     }
 }
