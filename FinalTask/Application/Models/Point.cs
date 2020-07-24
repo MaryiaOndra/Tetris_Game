@@ -6,30 +6,32 @@ namespace Application.Models
 {
    struct Point
    {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public char Char { get; set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public char Char { get; private set; }
 
         public Point(int x, int y, char ch)
         {
             X = x;
             Y = y;
             Char = ch;
-
         }
 
-        public void Draw()
+        //void Draw()
+        //{
+        //    DrawPoint();
+        //}
+
+        internal void Clear()
         {
-            DrawPoint(Char);
+            Char = PointConst.EmptySpace;
+            DrawPoint();
         }
-        public void Clear()
-        {
-            DrawPoint(' ');
-        }
-        private void DrawPoint(char ch)
+
+        internal void DrawPoint()
         {
             Console.SetCursorPosition(X, Y);
-            Console.Write(ch);
+            Console.Write(Char);
         }
    }
 }

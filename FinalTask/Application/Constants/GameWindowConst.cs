@@ -4,6 +4,10 @@ using System.Text;
 
 namespace Application
 {
+    public static class PointConst 
+    {
+        public const char EmptySpace = ' ';
+    }
     public static class GameWindowConst
     {
         public const int WindowWidth = 120;
@@ -14,8 +18,8 @@ namespace Application
     {
         public const char SymBorder = '#';
         public const int BorderXPos = (GameWindowConst.WindowWidth - FieldWidth) / 2;
-        public const int BorderYPos = 0;
-        public const int FieldWidth = 30;
+        public const int BorderYPos = 1;
+        public const int FieldWidth = 18;
         public const int FieldHeight = 20;
     }
 }

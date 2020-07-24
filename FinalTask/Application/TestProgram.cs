@@ -10,12 +10,12 @@ namespace Application
         static void Main(string[] args)
         {
 
-            //GameWindow gameWindow = new GameWindow();
+            GameWindow gameWindow = new GameWindow();
 
-            //PlayField playField = new PlayField();
-            //playField.DrawPlayField();
+            PlayField playField = new PlayField();
+            playField.DrawPlayField();
 
-            Shape shape = new Shape();
+            TetrisLogic shape = new TetrisLogic();
 
 
             Console.ReadLine();
