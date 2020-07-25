@@ -64,32 +64,44 @@ namespace Application.Models
             switch (numShape)
             {
                 case (int)TetrominoNames.O:
-                    WorkTetromino = new OShape().NewTetr;
+                    OShape o = new OShape();
+                    WorkTetromino = o.NewTetr;
                     break;
 
                 case (int)TetrominoNames.I:
-                    WorkTetromino = new ShapeI().NewTetr;
+                    ShapeI i = new ShapeI();
+                    WorkTetromino = i.NewTetr;
                     break;
 
                 case (int)TetrominoNames.J:
-                    WorkTetromino = new JShape().NewTetr;
+                    JShape j = new JShape();
+                    WorkTetromino = j.NewTetr;
                     break;
 
                 case (int)TetrominoNames.T:
-                    WorkTetromino = new TShape().NewTetr;
+                    TShape t= new TShape();
+                    WorkTetromino = t.NewTetr;
                     break;
 
                 case (int)TetrominoNames.L:
-                    WorkTetromino = new LShape().NewTetr;
+                    LShape l = new LShape();
+                    WorkTetromino = l.NewTetr;
                     break;
 
                 case (int)TetrominoNames.S:
-                    WorkTetromino = new SShape().NewTetr;
+                    SShape s = new SShape();
+                    WorkTetromino = s.NewTetr;
                     break;
 
                 case (int)TetrominoNames.Z:
-                    WorkTetromino = new ZShape().NewTetr;
+                    ZShape z = new ZShape();
+                    WorkTetromino = z.NewTetr;
                     break;
+
+                    ///ASK: Why it is not working?
+                    //case (int)TetrominoNames.Z:
+                    //    WorkTetromino = new ZShape().NewTetr;
+                    //    break;
             }
         }
 

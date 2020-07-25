@@ -10,10 +10,10 @@ namespace Application.Models.Shapes
 
         public ZShape()
         {
-            CreateShape();
+            
         }
 
-        protected override void CreateShape()
+        internal override void CreateShape()
         {
             List<Point> points = new List<Point>
             {

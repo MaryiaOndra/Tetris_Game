@@ -10,6 +10,6 @@ namespace Application.Models.Shapes
         protected int y = PlayFieldConst.BorderYPos;
         protected char ch = 'M';
 
-        abstract protected void CreateShape();
+        abstract internal void CreateShape();
     }
 }

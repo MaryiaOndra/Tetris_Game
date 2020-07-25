@@ -12,7 +12,7 @@ namespace Application.Models.Shapes
         {
             CreateShape();
         }
-        protected override void CreateShape()
+        internal override void CreateShape()
         {
             List<Point> points = new List<Point>
             {
