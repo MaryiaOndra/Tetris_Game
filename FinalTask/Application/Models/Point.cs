@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.Enums;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,11 +18,6 @@ namespace Application.Models
             Char = ch;
         }
 
-        //void Draw()
-        //{
-        //    DrawPoint();
-        //}
-
         internal void Clear()
         {
             Char = PointConst.EmptySpace;
@@ -32,6 +28,20 @@ namespace Application.Models
         {
             Console.SetCursorPosition(X, Y);
             Console.Write(Char);
+        }
+
+        internal void MoveRight() 
+        {
+            Clear();
+            X++;
+            DrawPoint();
+        }   
+        
+        internal void MoveLeft() 
+        {
+            Clear();
+            X--;
+            DrawPoint();
         }
    }
 }

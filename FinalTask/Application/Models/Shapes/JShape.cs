@@ -6,7 +6,7 @@ namespace Application.Models.Shapes
 {
     class JShape : Shapes
     {
-        public List<Point> NewShape { get; private set; }
+        public List<Point> NewTetr { get; private set; }
 
         public JShape()
         {
@@ -28,7 +28,7 @@ namespace Application.Models.Shapes
                 p.DrawPoint();
             }
 
-            NewShape = points;
+            NewTetr = points;
         }        
     }
 }

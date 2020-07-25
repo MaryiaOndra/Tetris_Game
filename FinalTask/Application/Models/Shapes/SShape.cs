@@ -6,7 +6,7 @@ namespace Application.Models.Shapes
 {
     class SShape : Shapes
     {
-        public List<Point> NewShape { get; private set; }
+        public List<Point> NewTetr { get; private set; }
 
         public SShape()
         {
@@ -28,7 +28,7 @@ namespace Application.Models.Shapes
                 p.DrawPoint();
             }
 
-            NewShape = points;
+            NewTetr = points;
         }
     }
 }

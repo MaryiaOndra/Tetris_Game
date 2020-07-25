@@ -9,13 +9,51 @@ namespace Application.Models
 {
     sealed class TetrisLogic
     {
-        private List<Point> workShape;
-        int angle = 90;
 
+        private List<Point> WorkTetromino;
+        private Direction direction;
+        int angle = 90;
+ 
         public TetrisLogic()
         {
             SetRandomShape();
-            RotateShape(angle);
+        }
+
+        public static void Loop() 
+        {
+            
+        
+        }
+
+        public void Action(List<Point> points)
+        {
+            switch (direction)
+            {
+                case Direction.Up:
+                    RotateShape(angle);
+                    break;
+
+                case Direction.Down:
+                    //TODO add dropping a figure with more speed
+                    break;
+
+                case Direction.Left:
+                    for (int i = 0; i < points.Capacity; i++)
+                    {
+                        points[i].MoveLeft();
+                    }
+                    break;
+
+                case Direction.Right:
+                    for (int i = 0; i < points.Capacity; i++)
+                    {
+                        points[i].MoveRight();
+                    }
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         private void SetRandomShape()
@@ -26,74 +64,94 @@ namespace Application.Models
             switch (numShape)
             {
                 case (int)TetrominoNames.O:
-                    workShape = new OShape().NewShape;
+                    WorkTetromino = new OShape().NewTetr;
                     break;
+
                 case (int)TetrominoNames.I:
-                    workShape = new ShapeI().NewShape;
+                    WorkTetromino = new ShapeI().NewTetr;
                     break;
+
                 case (int)TetrominoNames.J:
-                    workShape = new JShape().NewShape;
+                    WorkTetromino = new JShape().NewTetr;
                     break;
+
                 case (int)TetrominoNames.T:
-                    workShape = new TShape().NewShape;
+                    WorkTetromino = new TShape().NewTetr;
                     break;
+
                 case (int)TetrominoNames.L:
-                    workShape = new LShape().NewShape;
+                    WorkTetromino = new LShape().NewTetr;
                     break;
+
                 case (int)TetrominoNames.S:
-                    workShape = new SShape().NewShape;
+                    WorkTetromino = new SShape().NewTetr;
                     break;
+
                 case (int)TetrominoNames.Z:
-                    workShape = new ZShape().NewShape;
+                    WorkTetromino = new ZShape().NewTetr;
                     break;
             }
         }
 
-        private void MoveShape(List<Point> points)
-        {
-
+        public void GetDirection(ConsoleKey consoleKey) 
+        {       
+            switch (consoleKey)
+            {   
+                //TODO Add Keys: Space(pause), Esc(cancel) 
+                case ConsoleKey.LeftArrow:
+                    direction = Direction.Left;
+                    break;
+                case ConsoleKey.UpArrow:
+                    direction = Direction.Up;
+                    break;
+                case ConsoleKey.RightArrow:
+                    direction = Direction.Right;
+                    break;
+                case ConsoleKey.DownArrow:
+                    direction = Direction.Down;
+                    break;                    
+            }           
         }
 
         private void RotateShape(int angle)
         {
-            List<Point> newBlock = new List<Point> { };
+            List<Point> newTetromino = new List<Point> { };
 
-            for (int i = 0; i < workShape.Count; i++)
+            for (int i = 0; i < WorkTetromino.Count; i++)
             {
-                int newX = workShape[i].X * Convert.ToInt32(Math.Cos(angle)) - workShape[i].Y * Convert.ToInt32(Math.Sin(angle));
-                int newY = workShape[i].X * Convert.ToInt32(Math.Sin(angle)) + workShape[i].Y * Convert.ToInt32(Math.Cos(angle));
+                int newX = WorkTetromino[i].X * Convert.ToInt32(Math.Cos(angle)) - WorkTetromino[i].Y * Convert.ToInt32(Math.Sin(angle));
+                int newY = WorkTetromino[i].X * Convert.ToInt32(Math.Sin(angle)) + WorkTetromino[i].Y * Convert.ToInt32(Math.Cos(angle));
 
-                newBlock.Add(new Point(newX, newY, workShape[i].Char));
+                newTetromino.Add(new Point(newX, newY, WorkTetromino[i].Char));
             }
 
-            switch (IsNegative(newBlock) || IsPlaceBusy(newBlock))
+            switch (CheckCollision(newTetromino))
             {
                 case true:
                     break;
 
                 case false:
-                    for (int i = 0; i < workShape.Count; i++)
+                    for (int i = 0; i < WorkTetromino.Count; i++)
                     {
-                        workShape[i].Clear();
+                        WorkTetromino[i].Clear();
                     }
-                    workShape = newBlock;
-                    break;
-            }
 
-            switch (IsPlaceBusy(newBlock))
-            {
-                default:
+                    foreach (Point p in newTetromino)
+                    {
+                        p.DrawPoint();
+                    }
+                    WorkTetromino = newTetromino;
                     break;
             }
         }
 
-        private bool IsNegative(List<Point> checkingList)
+        private bool CheckCollision(List<Point> checkingList)
         {
             bool answer = true;
 
             foreach (Point p in checkingList)
             {
-                if (!(p.X > 0 || p.Y > 0))
+                if (!(p.Char.Equals(null) || p.X > 0 || p.Y > 0))
                 {
                     answer = true;
                 }
@@ -102,23 +160,6 @@ namespace Application.Models
             }
 
             return answer;
-        }
-
-        private bool IsPlaceBusy(List<Point> newCreatedList) 
-        {
-            bool answer = true;
-
-            foreach (Point p in newCreatedList)
-            {
-                if (!p.Char.Equals(null))
-                {
-                    answer = true;
-                }
-                else
-                    answer = false;
-            }
-
-            return answer; 
         }
     }
 }

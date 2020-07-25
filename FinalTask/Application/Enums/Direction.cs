@@ -4,8 +4,9 @@ using System.Text;
 
 namespace Application.Enums
 {
-    enum KeyRotation
+    enum Direction
     {
+        None,
         Up,
         Down,
         Left,

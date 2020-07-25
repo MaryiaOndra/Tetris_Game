@@ -6,7 +6,7 @@ namespace Application.Models.Shapes
 {
     sealed class TShape : Shapes
     {
-        public List<Point> NewShape { get; private set; }
+        public List<Point> NewTetr { get; private set; }
 
         public TShape()
         {
@@ -28,7 +28,7 @@ namespace Application.Models.Shapes
                 p.DrawPoint();
             }
 
-            NewShape = points;
+            NewTetr = points;
         }
     }
 }
