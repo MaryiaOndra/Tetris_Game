@@ -11,7 +11,7 @@ namespace Application.Models.Shapes
         private int y = BlockConst.StartY;
         private char ch = 'A';
 
-        internal List<Point> MyBlock { get; private set; }
+        internal List<Point> newBlock { get; private set; }
 
         public Block()
         {
@@ -59,9 +59,9 @@ namespace Application.Models.Shapes
 
         internal void DrawBlock() 
         {
-            for (int i = 0; i < MyBlock.Count; i++)
+            for (int i = 0; i < newBlock.Count; i++)
             {
-                MyBlock[i].DrawPoint();
+                newBlock[i].DrawPoint();
             }
         }
 
@@ -71,25 +71,33 @@ namespace Application.Models.Shapes
             ch = Convert.ToChar(random.Next(0, BlockConst.RangeChar) + BlockConst.StartChar);
         }
 
+        internal void GoDown()
+        {
+            for (int i = newBlock.Count - 1; i >= 0; i--)
+            {
+                newBlock[i].DropDown();
+            }
+        }
+
         internal void RotateBlock(int angle)
         {
             List<Point> newTetromino = new List<Point> { };
 
-            for (int i = 0; i < MyBlock.Count; i++)
+            for (int i = 0; i < newBlock.Count; i++)
             {
-                int newX = MyBlock[i].X * Convert.ToInt32(Math.Cos(angle)) - MyBlock[i].Y * Convert.ToInt32(Math.Sin(angle));
-                int newY = MyBlock[i].X * Convert.ToInt32(Math.Sin(angle)) + MyBlock[i].Y * Convert.ToInt32(Math.Cos(angle));
+                int newX = newBlock[i].X * Convert.ToInt32(Math.Cos(angle)) - newBlock[i].Y * Convert.ToInt32(Math.Sin(angle));
+                int newY = newBlock[i].X * Convert.ToInt32(Math.Sin(angle)) + newBlock[i].Y * Convert.ToInt32(Math.Cos(angle));
 
-                newTetromino.Add(new Point(newX, newY, MyBlock[i].Char));
+                newTetromino.Add(new Point(newX, newY, newBlock[i].Char));
             }
         }
-        
+
         private void ChooseBlock(TetrominoNames name)
         {
             switch (name)
             {
                 case TetrominoNames.T:
-                    MyBlock = new List<Point>
+                    newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
                         new Point(x, y + 1, ch),
@@ -99,7 +107,7 @@ namespace Application.Models.Shapes
                     break;
 
                 case TetrominoNames.J:
-                    MyBlock = new List<Point>
+                    newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
                         new Point(x, y + 1, ch),
@@ -109,7 +117,7 @@ namespace Application.Models.Shapes
                     break;
 
                 case TetrominoNames.O:
-                    MyBlock = new List<Point>
+                    newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
                         new Point(x + 1, y, ch),
@@ -119,7 +127,7 @@ namespace Application.Models.Shapes
                     break;
 
                 case TetrominoNames.I:
-                    MyBlock = new List<Point>
+                    newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
                         new Point(x, y + 1, ch),
@@ -129,7 +137,7 @@ namespace Application.Models.Shapes
                     break;
 
                 case TetrominoNames.L:
-                    MyBlock = new List<Point>
+                    newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
                         new Point(x, y + 1, ch),
@@ -139,7 +147,7 @@ namespace Application.Models.Shapes
                     break;
 
                 case TetrominoNames.S:
-                    MyBlock = new List<Point>
+                    newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
                         new Point(x + 1, y, ch),
@@ -149,7 +157,7 @@ namespace Application.Models.Shapes
                     break;
 
                 case TetrominoNames.Z:
-                    MyBlock = new List<Point>
+                    newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
                         new Point(x - 1, y, ch),

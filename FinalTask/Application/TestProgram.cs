@@ -12,13 +12,12 @@ namespace Application
         {
 
             GameWindow gameWindow = new GameWindow();
-            PlayField playField = new PlayField();
 
             //time = new Timer(Loop(), null, 0, 200);
 
-            //TetrisLogic tetrisLogic =  new TetrisLogic();
+            TetrisLogic tetrisLogic =  new TetrisLogic();
 
-            //tetrisLogic.GameLoop();
+            tetrisLogic.GameLoop();
 
             Console.ReadLine();
         }

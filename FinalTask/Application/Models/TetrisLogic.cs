@@ -11,30 +11,45 @@ namespace Application.Models
     sealed class TetrisLogic
     {
         private Block myBlock;
-        private Direction direction;
+        private PlayField playField;
+        private Direction direction = default;
         int angle = 90;
         
         public void GameLoop() 
         {
-            myBlock = new Block();
-            myBlock.DrawBlock();
+            playField = new PlayField();
 
             while (true)
             {
                 Thread.Sleep(500);
-                direction = default;
-                Action();
+                myBlock = new Block();
 
-                if (Console.KeyAvailable.Equals(false))
+                if (IsHit())
                 {
-                    Action();
+                    continue;
                 }
                 else
                 {
-                    ConsoleKeyInfo key = Console.ReadKey();
-                    GetDirection(key.Key);
-                    Action();
-                }                
+                    myBlock.DrawBlock();
+
+                    do
+                    {
+                        Action();
+                    } while (!IsHit());
+
+                    break;
+
+                    //if (Console.KeyAvailable.Equals(false))
+                    //{
+                    //    Action();
+                    //}
+                    //else
+                    //{
+                    //    ConsoleKeyInfo key = Console.ReadKey();
+                    //    GetDirection(key.Key);
+                    //    Action();
+                    //}
+                }             
             }
         }
 
@@ -51,29 +66,31 @@ namespace Application.Models
                     break;
 
                 case Direction.Left:
-                    for (int i = 0; i < myBlock.MyBlock.Capacity; i++)
+                    for (int i = 0; i < myBlock.newBlock.Capacity; i++)
                     {
-                        myBlock.MyBlock[i].MoveLeft();
+                        myBlock.newBlock[i].MoveLeft();
                     }
                     break;
 
                 case Direction.Right:
-                    for (int i = 0; i < myBlock.MyBlock.Count; i++)
+                    for (int i = 0; i < myBlock.newBlock.Count; i++)
                     {
-                        myBlock.MyBlock[i].MoveRight();
+                        myBlock.newBlock[i].MoveRight();
                     }
                     break;
 
                 default:
-                    for (int i = myBlock.MyBlock.Capacity - 1; i >= 0; i--)
+                    if (!IsHit())
                     {
-                        myBlock.MyBlock[i].DropDown();
+                        myBlock.GoDown();
+                    }
+                    else
+                    {
+                        break;
                     }
                     break;
             }
         }
-
-
 
         public void GetDirection(ConsoleKey consoleKey) 
         {       
@@ -95,7 +112,28 @@ namespace Application.Models
                 default:
                     break;
             }
-        }        
+        }
+
+        private bool IsHit() 
+        {
+            bool answer = false;
+
+            for (int i = 0; i < playField.BottomSide.Length; i++)
+            {
+                for (int j = 0; j < myBlock.newBlock.Count; j++)
+                {
+                    if (playField.BottomSide[i].Y.Equals(myBlock.newBlock[j].Y))
+                    {
+                        answer = true;
+                        break;
+                    }
+                    else
+                        break;
+                }
+            }
+
+            return answer;
+        }
 
         private bool IsCollision(List<Point> checkingList)
         {
