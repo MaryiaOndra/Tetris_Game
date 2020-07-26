@@ -10,29 +10,31 @@ namespace Application.Models
 {
     sealed class TetrisLogic
     {
-
-        private List<Point> workTetromino;
+        private Block myBlock;
         private Direction direction;
         int angle = 90;
- 
-        public TetrisLogic()
-        {
-
-        }
-
+        
         public void GameLoop() 
         {
-            Console.ForegroundColor = ConsoleColor.White;
-            SetRandomShape();
+            myBlock = new Block();
+            myBlock.DrawBlock();
 
             while (true)
             {
-                for (int i = workTetromino.Count - 1; i >= 0; i--)
-                {
-                    workTetromino[i].DropDown();
-                }
+                Thread.Sleep(500);
+                direction = default;
+                Action();
 
-                Thread.Sleep(100);
+                if (Console.KeyAvailable.Equals(false))
+                {
+                    Action();
+                }
+                else
+                {
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    GetDirection(key.Key);
+                    Action();
+                }                
             }
         }
 
@@ -41,7 +43,7 @@ namespace Application.Models
             switch (direction)
             {
                 case Direction.Up:
-                    RotateShape(angle);
+                    myBlock.RotateBlock(angle);
                     break;
 
                 case Direction.Down:
@@ -49,71 +51,29 @@ namespace Application.Models
                     break;
 
                 case Direction.Left:
-                    for (int i = 0; i < workTetromino.Capacity; i++)
+                    for (int i = 0; i < myBlock.MyBlock.Capacity; i++)
                     {
-                        workTetromino[i].MoveLeft();
+                        myBlock.MyBlock[i].MoveLeft();
                     }
                     break;
 
                 case Direction.Right:
-                    for (int i = 0; i < workTetromino.Capacity; i++)
+                    for (int i = 0; i < myBlock.MyBlock.Count; i++)
                     {
-                        workTetromino[i].MoveRight();
+                        myBlock.MyBlock[i].MoveRight();
                     }
                     break;
 
                 default:
-                    for (int i = 0; i < workTetromino.Capacity; i++)
+                    for (int i = myBlock.MyBlock.Capacity - 1; i >= 0; i--)
                     {
-                        workTetromino[i].DropDown();
+                        myBlock.MyBlock[i].DropDown();
                     }
                     break;
             }
         }
 
-        private void SetRandomShape()
-        {
-            Random r = new Random();
-            int numShape = r.Next(0, 6);
 
-            switch (numShape)
-            {
-                case (int)TetrominoNames.O:
-                    OShape o = new OShape();
-                    workTetromino = o.NewTetr;
-                    break;
-
-                case (int)TetrominoNames.I:
-                    ShapeI i = new ShapeI();
-                    workTetromino = i.NewTetr;
-                    break;
-
-                case (int)TetrominoNames.J:
-                    JShape j = new JShape();
-                    workTetromino = j.NewTetr;
-                    break;
-
-                case (int)TetrominoNames.T:
-                    TShape t= new TShape();
-                    workTetromino = t.NewTetr;
-                    break;
-
-                case (int)TetrominoNames.L:
-                    LShape l = new LShape();
-                    workTetromino = l.NewTetr;
-                    break;
-
-                case (int)TetrominoNames.S:
-                    SShape s = new SShape();
-                    workTetromino = s.NewTetr;
-                    break;
-
-                case (int)TetrominoNames.Z:
-                    ZShape z = new ZShape();
-                    workTetromino = z.NewTetr;
-                    break;
-            }
-        }
 
         public void GetDirection(ConsoleKey consoleKey) 
         {       
@@ -131,41 +91,11 @@ namespace Application.Models
                     break;
                 case ConsoleKey.DownArrow:
                     direction = Direction.Down;
-                    break;                    
-            }           
-        }
-
-        private void RotateShape(int angle)
-        {
-            List<Point> newTetromino = new List<Point> { };
-
-            for (int i = 0; i < workTetromino.Count; i++)
-            {
-                int newX = workTetromino[i].X * Convert.ToInt32(Math.Cos(angle)) - workTetromino[i].Y * Convert.ToInt32(Math.Sin(angle));
-                int newY = workTetromino[i].X * Convert.ToInt32(Math.Sin(angle)) + workTetromino[i].Y * Convert.ToInt32(Math.Cos(angle));
-
-                newTetromino.Add(new Point(newX, newY, workTetromino[i].Char));
-            }
-
-            switch (IsCollision(newTetromino))
-            {
-                case true:
-                    break;
-
-                case false:
-                    for (int i = 0; i < workTetromino.Count; i++)
-                    {
-                        workTetromino[i].Clear();
-                    }
-
-                    foreach (Point p in newTetromino)
-                    {
-                        p.DrawPoint();
-                    }
-                    workTetromino = newTetromino;
+                    break;         
+                default:
                     break;
             }
-        }
+        }        
 
         private bool IsCollision(List<Point> checkingList)
         {

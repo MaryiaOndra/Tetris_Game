@@ -8,26 +8,18 @@ namespace Application
 {
     class TestProgram
     {
-        static Timer time;
         static void Main(string[] args)
         {
 
             GameWindow gameWindow = new GameWindow();
             PlayField playField = new PlayField();
-            playField.DrawPlayField();
 
             //time = new Timer(Loop(), null, 0, 200);
 
-            while (true)
-            {           
-                TetrisLogic tetrisLogic =  new TetrisLogic();
+            //TetrisLogic tetrisLogic =  new TetrisLogic();
 
-                tetrisLogic.GameLoop();
+            //tetrisLogic.GameLoop();
 
-                ConsoleKeyInfo key = Console.ReadKey();
-
-                tetrisLogic.GetDirection(key.Key);
-            }
             Console.ReadLine();
         }
     }

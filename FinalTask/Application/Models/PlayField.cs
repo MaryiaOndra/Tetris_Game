@@ -1,39 +1,72 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace Application.Models
 {
-    class PlayField
+    sealed class PlayField
     {
-        static private int posX = PlayFieldConst.BorderXPos;
-        static private int posY = PlayFieldConst.BorderYPos;
+        private int posX = PlayFieldConst.BorderXPos;
+        private int posY = PlayFieldConst.BorderYPos;
+        private char fieldChar = PlayFieldConst.SymBorder;
 
-        public void DrawPlayField() 
+        public Point[] RightSide { get; private set; }
+        public Point[] LeftSide { get; private set; }
+        public Point[] BottomSide { get; private set; }
+
+        public PlayField()
         {
-            DrawVerticalLine(posX, posY);
-            DrawHorizontalLine(posX, PlayFieldConst.FieldHeight);
-            DrawVerticalLine(posX + PlayFieldConst.FieldWidth, posY);
+            DrawLeftSide();
+
+            DrawRightSide();
+
+            DrawBottomSide();
         }
 
-        public void DrawVerticalLine(int posX, int posY) 
+        internal void DrawLeftSide()
         {
-            char[] verticalLine = new char[PlayFieldConst.FieldHeight];
+            LeftSide = new Point[PlayFieldConst.FieldHeight];
 
-            for (int i = 0; i < verticalLine.Length; i++)
+            for (int i = 0; i < PlayFieldConst.FieldHeight; i++)
             {
-                Console.SetCursorPosition(posX, posY);
-                verticalLine[i] = PlayFieldConst.SymBorder;
-                Console.WriteLine(verticalLine[i]);
+                LeftSide[i] = new Point(posX, posY, fieldChar);
+                LeftSide[i].DrawPoint();
                 posY++;
             }
-            posY = default;
+
+            posX = PlayFieldConst.BorderXPos;
+            posY = PlayFieldConst.BorderYPos;
         }
 
-        public void DrawHorizontalLine(int posX, int posY) 
+        internal void DrawRightSide()
         {
-            Console.SetCursorPosition(posX, posY);
-            Console.WriteLine(new string(PlayFieldConst.SymBorder, PlayFieldConst.FieldWidth + 1));            
+            RightSide = new Point[PlayFieldConst.FieldHeight];
+
+            for (int i = 0; i < PlayFieldConst.FieldHeight; i++)
+            {
+                RightSide[i] = new Point((posX + PlayFieldConst.FieldWidth), posY, fieldChar);
+                RightSide[i].DrawPoint();
+                posY++;
+            }
+
+            posX = PlayFieldConst.BorderXPos;
+            posY = PlayFieldConst.BorderYPos;
+        }
+
+        internal void DrawBottomSide()
+        {
+            BottomSide = new Point[PlayFieldConst.FieldWidth + 1];
+
+            for (int i = 0; i < PlayFieldConst.FieldWidth + 1; i++)
+            {
+                BottomSide[i] = new Point(posX, (posY + PlayFieldConst.FieldHeight), fieldChar);
+                BottomSide[i].DrawPoint();
+                posX++;
+            }
+
+            posX = PlayFieldConst.BorderXPos;
+            posY = PlayFieldConst.BorderYPos;
         }
 
         //TODO: create nice frames : Console.WriteLine('╦');
