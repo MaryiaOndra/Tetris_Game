@@ -10,6 +10,7 @@ namespace Application.Models.Shapes
 
         public OShape()
         {
+            ChooseRandomChar();
             CreateShape();
         }
         internal override void CreateShape()

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Application.Models
 {
-   struct Point
+   class Point
    {
         public int X { get; private set; }
         public int Y { get; private set; }
@@ -20,8 +20,8 @@ namespace Application.Models
 
         internal void Clear()
         {
-            Char = PointConst.EmptySpace;
-            DrawPoint();
+            Console.SetCursorPosition(X, Y);
+            Console.Write(PointConst.EmptySpace);
         }
 
         internal void DrawPoint()
@@ -43,5 +43,12 @@ namespace Application.Models
             X--;
             DrawPoint();
         }
-   }
+
+        internal void DropDown()
+        {
+            Clear();
+            Y++;
+            DrawPoint();
+        }
+    }
 }

@@ -35,5 +35,8 @@ namespace Application.Models
             Console.SetCursorPosition(posX, posY);
             Console.WriteLine(new string(PlayFieldConst.SymBorder, PlayFieldConst.FieldWidth + 1));            
         }
+
+        //TODO: create nice frames : Console.WriteLine('╦');
+        //char[] vs = { '║', '║', '║', '║', '║' };
     }
 }

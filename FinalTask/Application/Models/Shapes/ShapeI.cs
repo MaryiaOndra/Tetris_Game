@@ -10,6 +10,7 @@ namespace Application.Models.Shapes
 
         public ShapeI()
         {
+            ChooseRandomChar();
             CreateShape();
         }
 

@@ -10,7 +10,8 @@ namespace Application.Models.Shapes
 
         public ZShape()
         {
-            
+            ChooseRandomChar();
+            CreateShape();
         }
 
         internal override void CreateShape()

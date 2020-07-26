@@ -20,17 +20,15 @@ namespace Application
 
             while (true)
             {           
-                    TetrisLogic tetrisLogic =  new TetrisLogic();
-                    ConsoleKeyInfo key = Console.ReadKey();
+                TetrisLogic tetrisLogic =  new TetrisLogic();
 
-                    tetrisLogic.GetDirection(key.Key);
-                                
+                tetrisLogic.GameLoop();
+
+                ConsoleKeyInfo key = Console.ReadKey();
+
+                tetrisLogic.GetDirection(key.Key);
             }
-
             Console.ReadLine();
-
-            //Console.WriteLine('╦');
-            //char[] vs = { '║', '║', '║', '║', '║' };
         }
     }
 }

@@ -4,28 +4,39 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace Application.Models
 {
     sealed class TetrisLogic
     {
 
-        private List<Point> WorkTetromino;
+        private List<Point> workTetromino;
         private Direction direction;
         int angle = 90;
  
         public TetrisLogic()
         {
-            SetRandomShape();
+
         }
 
-        public static void Loop() 
+        public void GameLoop() 
         {
-            
-        
+            Console.ForegroundColor = ConsoleColor.White;
+            SetRandomShape();
+
+            while (true)
+            {
+                for (int i = workTetromino.Count - 1; i >= 0; i--)
+                {
+                    workTetromino[i].DropDown();
+                }
+
+                Thread.Sleep(100);
+            }
         }
 
-        public void Action(List<Point> points)
+        public void Action()
         {
             switch (direction)
             {
@@ -38,20 +49,24 @@ namespace Application.Models
                     break;
 
                 case Direction.Left:
-                    for (int i = 0; i < points.Capacity; i++)
+                    for (int i = 0; i < workTetromino.Capacity; i++)
                     {
-                        points[i].MoveLeft();
+                        workTetromino[i].MoveLeft();
                     }
                     break;
 
                 case Direction.Right:
-                    for (int i = 0; i < points.Capacity; i++)
+                    for (int i = 0; i < workTetromino.Capacity; i++)
                     {
-                        points[i].MoveRight();
+                        workTetromino[i].MoveRight();
                     }
                     break;
 
                 default:
+                    for (int i = 0; i < workTetromino.Capacity; i++)
+                    {
+                        workTetromino[i].DropDown();
+                    }
                     break;
             }
         }
@@ -65,43 +80,38 @@ namespace Application.Models
             {
                 case (int)TetrominoNames.O:
                     OShape o = new OShape();
-                    WorkTetromino = o.NewTetr;
+                    workTetromino = o.NewTetr;
                     break;
 
                 case (int)TetrominoNames.I:
                     ShapeI i = new ShapeI();
-                    WorkTetromino = i.NewTetr;
+                    workTetromino = i.NewTetr;
                     break;
 
                 case (int)TetrominoNames.J:
                     JShape j = new JShape();
-                    WorkTetromino = j.NewTetr;
+                    workTetromino = j.NewTetr;
                     break;
 
                 case (int)TetrominoNames.T:
                     TShape t= new TShape();
-                    WorkTetromino = t.NewTetr;
+                    workTetromino = t.NewTetr;
                     break;
 
                 case (int)TetrominoNames.L:
                     LShape l = new LShape();
-                    WorkTetromino = l.NewTetr;
+                    workTetromino = l.NewTetr;
                     break;
 
                 case (int)TetrominoNames.S:
                     SShape s = new SShape();
-                    WorkTetromino = s.NewTetr;
+                    workTetromino = s.NewTetr;
                     break;
 
                 case (int)TetrominoNames.Z:
                     ZShape z = new ZShape();
-                    WorkTetromino = z.NewTetr;
+                    workTetromino = z.NewTetr;
                     break;
-
-                    ///ASK: Why it is not working?
-                    //case (int)TetrominoNames.Z:
-                    //    WorkTetromino = new ZShape().NewTetr;
-                    //    break;
             }
         }
 
@@ -129,41 +139,41 @@ namespace Application.Models
         {
             List<Point> newTetromino = new List<Point> { };
 
-            for (int i = 0; i < WorkTetromino.Count; i++)
+            for (int i = 0; i < workTetromino.Count; i++)
             {
-                int newX = WorkTetromino[i].X * Convert.ToInt32(Math.Cos(angle)) - WorkTetromino[i].Y * Convert.ToInt32(Math.Sin(angle));
-                int newY = WorkTetromino[i].X * Convert.ToInt32(Math.Sin(angle)) + WorkTetromino[i].Y * Convert.ToInt32(Math.Cos(angle));
+                int newX = workTetromino[i].X * Convert.ToInt32(Math.Cos(angle)) - workTetromino[i].Y * Convert.ToInt32(Math.Sin(angle));
+                int newY = workTetromino[i].X * Convert.ToInt32(Math.Sin(angle)) + workTetromino[i].Y * Convert.ToInt32(Math.Cos(angle));
 
-                newTetromino.Add(new Point(newX, newY, WorkTetromino[i].Char));
+                newTetromino.Add(new Point(newX, newY, workTetromino[i].Char));
             }
 
-            switch (CheckCollision(newTetromino))
+            switch (IsCollision(newTetromino))
             {
                 case true:
                     break;
 
                 case false:
-                    for (int i = 0; i < WorkTetromino.Count; i++)
+                    for (int i = 0; i < workTetromino.Count; i++)
                     {
-                        WorkTetromino[i].Clear();
+                        workTetromino[i].Clear();
                     }
 
                     foreach (Point p in newTetromino)
                     {
                         p.DrawPoint();
                     }
-                    WorkTetromino = newTetromino;
+                    workTetromino = newTetromino;
                     break;
             }
         }
 
-        private bool CheckCollision(List<Point> checkingList)
+        private bool IsCollision(List<Point> checkingList)
         {
             bool answer = true;
 
             foreach (Point p in checkingList)
             {
-                if (!(p.Char.Equals(null) || p.X > 0 || p.Y > 0))
+                if (p.Char.Equals(' ') || p.X < 0 || p.Y < 0)
                 {
                     answer = true;
                 }
@@ -173,6 +183,12 @@ namespace Application.Models
 
             return answer;
         }
+
+        private static bool GameOver()
+        {
+            return false;
+        }
+
     }
 }
 
