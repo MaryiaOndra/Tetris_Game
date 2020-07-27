@@ -13,19 +13,11 @@ namespace Application.Models.Shapes
 
         internal List<Point> newBlock { get; private set; }
 
-        public Block()
+        internal void CreateBlock(int numOfBlock, int numOfChar)
         {
-            ChooseRandomChar();
-            CreateBlock();
-        }
+            ChooseRandomChar(numOfChar);
 
-        internal void CreateBlock()
-        {            
-            Random r = new Random();
-            
-            int numShape = r.Next(0, 6);
-
-            switch (numShape)
+            switch (numOfBlock)
             {
                 case (int)TetrominoNames.O:
                     ChooseBlock(TetrominoNames.O);
@@ -65,10 +57,23 @@ namespace Application.Models.Shapes
             }
         }
 
-        void ChooseRandomChar()
+        internal void ShowNextBlock(int numOfNextBlock, int numNextChar) 
         {
-            Random random = new Random();
-            ch = Convert.ToChar(random.Next(0, BlockConst.RangeChar) + BlockConst.StartChar);
+            CreateBlock(numOfNextBlock, numNextChar);
+
+            foreach (Point p in newBlock)
+            {
+                p.DrawPoint();
+            }
+
+            //TODO:
+            //set cursor position?
+            //add numOfBlock == nextNumOfBlock to the end of loop, before creating new block
+        }
+
+        void ChooseRandomChar(int numOfChar)
+        {
+            ch = Convert.ToChar(numOfChar);
         }
 
         internal void GoDown()

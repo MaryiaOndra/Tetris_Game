@@ -8,7 +8,7 @@ namespace Application
     {
         public const int StartX = PlayFieldConst.BorderXPos + PlayFieldConst.FieldWidth / 2;
         public const int StartY = PlayFieldConst.BorderYPos;
-        public const int StartChar = 65; 
+        public const int StartNumChar = 65; 
         public const int RangeChar = 22; 
     }
 

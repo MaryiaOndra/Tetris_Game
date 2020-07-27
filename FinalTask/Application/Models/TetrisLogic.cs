@@ -13,43 +13,53 @@ namespace Application.Models
         private Block myBlock;
         private PlayField playField;
         private Direction direction = default;
-        int angle = 90;
-        
-        public void GameLoop() 
+        private int angle = 90;
+
+        Random random = new Random();
+        private static int numOfBlock;
+        private static int nextNumOfBlock;
+        private static int numOfChar = BlockConst.StartNumChar;
+        private static int nextNumOfChar;
+        private static ConsoleKeyInfo key;
+        private int time = 300;
+
+        private List<Point> bulkOfUsedPoints = new List<Point>();
+
+        public void GameLoop()
         {
+            new Thread(() =>
+            {
+                while (true)
+                {                     
+                    key = Console.ReadKey();
+                    GetDirection(key.Key);
+                }
+
+            }).Start();
+
             playField = new PlayField();
 
-            while (true)
+            while (!GameOver())
             {
-                Thread.Sleep(500);
                 myBlock = new Block();
+                myBlock.CreateBlock(numOfBlock, numOfChar);
+                myBlock.DrawBlock();
 
-                if (IsHit())
+                nextNumOfBlock = random.Next(6);
+                nextNumOfChar = random.Next(BlockConst.RangeChar) + BlockConst.StartNumChar;
+
+                while (!IsHitBottomOrBlock())
                 {
-                    continue;
+                    Action();
                 }
-                else
+
+                for (int i = 0; i < myBlock.newBlock.Count; i++)
                 {
-                    myBlock.DrawBlock();
+                    bulkOfUsedPoints.Add(myBlock.newBlock[i]);
+                }
 
-                    do
-                    {
-                        Action();
-                    } while (!IsHit());
-
-                    break;
-
-                    //if (Console.KeyAvailable.Equals(false))
-                    //{
-                    //    Action();
-                    //}
-                    //else
-                    //{
-                    //    ConsoleKeyInfo key = Console.ReadKey();
-                    //    GetDirection(key.Key);
-                    //    Action();
-                    //}
-                }             
+                numOfBlock = nextNumOfBlock;
+                numOfChar = nextNumOfChar;
             }
         }
 
@@ -58,44 +68,72 @@ namespace Application.Models
             switch (direction)
             {
                 case Direction.Up:
+
+                    Thread.Sleep(time);
+
                     myBlock.RotateBlock(angle);
                     break;
 
-                case Direction.Down:
-                    //TODO add dropping a figure with more speed
-                    break;
-
                 case Direction.Left:
-                    for (int i = 0; i < myBlock.newBlock.Capacity; i++)
+
+                    Thread.Sleep(time);
+
+                    if (!IsHitFieldSides())
                     {
-                        myBlock.newBlock[i].MoveLeft();
+                        for (int i = 0; i < myBlock.newBlock.Capacity; i++)
+                        {
+                            myBlock.newBlock[i].MoveLeft();
+                        }
+
+                        myBlock.DrawBlock();
+                    }
+                    else
+                    {
+                        myBlock.GoDown();
                     }
                     break;
 
                 case Direction.Right:
-                    for (int i = 0; i < myBlock.newBlock.Count; i++)
+
+                    Thread.Sleep(time);
+
+                    if (!IsHitFieldSides())
                     {
-                        myBlock.newBlock[i].MoveRight();
+                        for (int i = 0; i < myBlock.newBlock.Count; i++)
+                        {
+                            myBlock.newBlock[i].MoveRight();
+                        }
+
+                        myBlock.DrawBlock();
+                    }
+                    else
+                    {
+                        Thread.Sleep(time);
+
+                        myBlock.GoDown();
+                    }
+                    break;
+
+                case Direction.Down:
+
+                    while (!IsHitBottomOrBlock())
+                    {
+                        Thread.Sleep(time / 10);
+                        myBlock.GoDown();
                     }
                     break;
 
                 default:
-                    if (!IsHit())
-                    {
-                        myBlock.GoDown();
-                    }
-                    else
-                    {
-                        break;
-                    }
+                    Thread.Sleep(time);
+                    myBlock.GoDown();
                     break;
             }
         }
 
-        public void GetDirection(ConsoleKey consoleKey) 
-        {       
+        public void GetDirection(ConsoleKey consoleKey)
+        {
             switch (consoleKey)
-            {   
+            {
                 //TODO Add Keys: Space(pause), Esc(cancel) 
                 case ConsoleKey.LeftArrow:
                     direction = Direction.Left;
@@ -108,45 +146,48 @@ namespace Application.Models
                     break;
                 case ConsoleKey.DownArrow:
                     direction = Direction.Down;
-                    break;         
+                    break;
                 default:
                     break;
             }
         }
 
-        private bool IsHit() 
+        private bool IsHitBottomOrBlock()
         {
             bool answer = false;
 
-            for (int i = 0; i < playField.BottomSide.Length; i++)
+            for (int i = 0; i < myBlock.newBlock.Count; i++)
             {
-                for (int j = 0; j < myBlock.newBlock.Count; j++)
+                for (int j = 0; j < bulkOfUsedPoints.Count; j++)
                 {
-                    if (playField.BottomSide[i].Y.Equals(myBlock.newBlock[j].Y))
+                    if (myBlock.newBlock[i].Y.Equals(bulkOfUsedPoints[j].Y - 1))
                     {
                         answer = true;
                         break;
                     }
-                    else
-                        break;
+                }
+
+                if (myBlock.newBlock[i].Y.Equals(playField.BottomSide[0].Y - 1))
+                {
+                    answer = true;
+                    break;
                 }
             }
 
             return answer;
         }
 
-        private bool IsCollision(List<Point> checkingList)
+        private bool IsHitFieldSides()
         {
-            bool answer = true;
+            bool answer = false;
 
-            foreach (Point p in checkingList)
+            for (int i = 0; i < myBlock.newBlock.Count; i++)
             {
-                if (p.Char.Equals(' ') || p.X < 0 || p.Y < 0)
+                if (myBlock.newBlock[i].X.Equals(playField.RightSide[0].X - 1)
+                    || myBlock.newBlock[i].X.Equals(playField.LeftSide[0].X + 1))
                 {
                     answer = true;
                 }
-                else
-                    answer = false;
             }
 
             return answer;
@@ -156,7 +197,6 @@ namespace Application.Models
         {
             return false;
         }
-
     }
 }
 

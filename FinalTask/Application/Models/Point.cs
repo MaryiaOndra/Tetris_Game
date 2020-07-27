@@ -11,8 +11,6 @@ namespace Application.Models
         public int Y { get; private set; }
         public char Char { get; private set; }
 
-        public static Point NewPoint { get; private set; }
-
         public Point(int x, int y, char ch)
         {
             X = x;
@@ -36,14 +34,12 @@ namespace Application.Models
         {
             Clear();
             X++;
-            DrawPoint();
         }   
         
         internal void MoveLeft() 
         {
             Clear();
             X--;
-            DrawPoint();
         }
 
         internal void DropDown()
