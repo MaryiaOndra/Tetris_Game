@@ -69,6 +69,16 @@ namespace Application.Models
             posY = PlayFieldConst.BorderYPos;
         }
 
+        internal void CreateListForChechinLines()
+        {
+            object[] vs = new object[PlayFieldConst.FieldHeight];
+
+            for (int i = 0; i < vs.Length; i++)
+            {
+
+            }
+        }
+
         //TODO: create nice frames : Console.WriteLine('╦');
         //char[] vs = { '║', '║', '║', '║', '║' };
     }

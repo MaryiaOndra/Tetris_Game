@@ -15,9 +15,9 @@ namespace Application
 
             //time = new Timer(Loop(), null, 0, 200);
 
-            TetrisLogic tetrisLogic =  new TetrisLogic();
+            TetrisGame tetrisLogic =  new TetrisGame();
 
-            tetrisLogic.GameLoop();
+            tetrisLogic.Start();
 
             Console.ReadLine();
         }

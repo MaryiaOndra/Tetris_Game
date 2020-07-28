@@ -3,43 +3,32 @@ using Application.Models.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading;
 
 namespace Application.Models
 {
-    sealed class TetrisLogic
+    sealed class TetrisGame
     {
         private Block myBlock;
         private PlayField playField;
-        private Direction direction = default;
-        private int angle = 90;
-
-        Random random = new Random();
+        private Random random = new Random();
         private static int numOfBlock;
         private static int nextNumOfBlock;
         private static int numOfChar = BlockConst.StartNumChar;
         private static int nextNumOfChar;
-        private static ConsoleKeyInfo key;
-        private int time = 300;
-
+        private int time = 50;
         private List<Point> bulkOfUsedPoints = new List<Point>();
+        private static int Score;
 
-        public void GameLoop()
+        public void Start()
         {
-            new Thread(() =>
-            {
-                while (true)
-                {                     
-                    key = Console.ReadKey();
-                    GetDirection(key.Key);
-                }
-
-            }).Start();
-
             playField = new PlayField();
 
-            while (!GameOver())
+            Score = 0;
+
+            while (true)
             {
                 myBlock = new Block();
                 myBlock.CreateBlock(numOfBlock, numOfChar);
@@ -48,9 +37,26 @@ namespace Application.Models
                 nextNumOfBlock = random.Next(6);
                 nextNumOfChar = random.Next(BlockConst.RangeChar) + BlockConst.StartNumChar;
 
+                if (IsOver())
+                {                    
+                    break;
+                }
+
                 while (!IsHitBottomOrBlock())
                 {
-                    Action();
+                    if (Console.KeyAvailable)
+                    {
+                        HandleKey(Console.ReadKey(true).Key);
+                    }
+                    else
+                    {
+                        HandleKey(default);
+                    }
+                }
+
+                if (IsFullLines)
+                {
+
                 }
 
                 for (int i = 0; i < myBlock.newBlock.Count; i++)
@@ -61,96 +67,76 @@ namespace Application.Models
                 numOfBlock = nextNumOfBlock;
                 numOfChar = nextNumOfChar;
             }
+
+            ShowGameOver();
         }
 
-        public void Action()
+        public void HandleKey(ConsoleKey consoleKey)
         {
-            switch (direction)
+            Thread.Sleep(time);
+
+            switch (consoleKey)
             {
-                case Direction.Up:
-
-                    Thread.Sleep(time);
-
-                    myBlock.RotateBlock(angle);
+                case ConsoleKey.UpArrow:
+                    myBlock.RotateBlock();
                     break;
 
-                case Direction.Left:
-
-                    Thread.Sleep(time);
-
+                case ConsoleKey.LeftArrow:
                     if (!IsHitFieldSides())
                     {
                         for (int i = 0; i < myBlock.newBlock.Capacity; i++)
                         {
                             myBlock.newBlock[i].MoveLeft();
                         }
-
-                        myBlock.DrawBlock();
                     }
                     else
                     {
-                        myBlock.GoDown();
+                        myBlock.DropBlock();
                     }
                     break;
 
-                case Direction.Right:
-
-                    Thread.Sleep(time);
-
+                case ConsoleKey.RightArrow:
                     if (!IsHitFieldSides())
                     {
                         for (int i = 0; i < myBlock.newBlock.Count; i++)
                         {
                             myBlock.newBlock[i].MoveRight();
                         }
-
-                        myBlock.DrawBlock();
                     }
                     else
                     {
-                        Thread.Sleep(time);
-
-                        myBlock.GoDown();
+                        myBlock.DropBlock();
                     }
                     break;
 
-                case Direction.Down:
+                case ConsoleKey.DownArrow:
 
                     while (!IsHitBottomOrBlock())
                     {
                         Thread.Sleep(time / 10);
-                        myBlock.GoDown();
+                        myBlock.DropBlock();
                     }
                     break;
 
                 default:
                     Thread.Sleep(time);
-                    myBlock.GoDown();
+                    myBlock.DropBlock();
                     break;
             }
+
+            myBlock.DrawBlock();
         }
 
-        public void GetDirection(ConsoleKey consoleKey)
+        private static void ShowGameOver()
         {
-            switch (consoleKey)
-            {
-                //TODO Add Keys: Space(pause), Esc(cancel) 
-                case ConsoleKey.LeftArrow:
-                    direction = Direction.Left;
-                    break;
-                case ConsoleKey.UpArrow:
-                    direction = Direction.Up;
-                    break;
-                case ConsoleKey.RightArrow:
-                    direction = Direction.Right;
-                    break;
-                case ConsoleKey.DownArrow:
-                    direction = Direction.Down;
-                    break;
-                default:
-                    break;
-            }
+            Console.ForegroundColor = ConsoleColor.Red;
+            string text = "GAME OVER";
+            Console.SetCursorPosition(GameWindowConst.WindowWidth / 2 - text.Length / 2, PlayFieldConst.FieldHeight / 2);
+            Console.WriteLine(text);
+            Console.ForegroundColor = ConsoleColor.White;
         }
+
+        #region BlockValidation
 
         private bool IsHitBottomOrBlock()
         {
@@ -160,7 +146,8 @@ namespace Application.Models
             {
                 for (int j = 0; j < bulkOfUsedPoints.Count; j++)
                 {
-                    if (myBlock.newBlock[i].Y.Equals(bulkOfUsedPoints[j].Y - 1))
+                    if (myBlock.newBlock[i].Y.Equals(bulkOfUsedPoints[j].Y - 1)
+                        && myBlock.newBlock[i].X.Equals(bulkOfUsedPoints[j].X))
                     {
                         answer = true;
                         break;
@@ -192,11 +179,31 @@ namespace Application.Models
 
             return answer;
         }
-
-        private static bool GameOver()
+        private bool IsOver()
         {
-            return false;
+            bool answer = false;
+
+            for (int i = 0; i < bulkOfUsedPoints.Count; i++)
+            {
+                if (bulkOfUsedPoints[i].Y.Equals(BlockConst.StartY))
+                {
+                    answer = true;
+                }
+            }
+
+            return answer;
         }
+
+        private bool IsFullLines() 
+        {
+            bool answer = false;
+
+
+
+            return answer;
+        }
+
+        #endregion
     }
 }
 

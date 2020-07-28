@@ -7,6 +7,6 @@ namespace Application
 {
     class Program
     {
-        TetrisLogic Shape = new TetrisLogic();
+        TetrisGame Shape = new TetrisGame();
     }
 }

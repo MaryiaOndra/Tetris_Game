@@ -20,31 +20,31 @@ namespace Application.Models.Shapes
             switch (numOfBlock)
             {
                 case (int)TetrominoNames.O:
-                    ChooseBlock(TetrominoNames.O);
+                    ChooseFormOfBlock(TetrominoNames.O);
                     break;
 
                 case (int)TetrominoNames.I:
-                    ChooseBlock(TetrominoNames.I);
+                    ChooseFormOfBlock(TetrominoNames.I);
                     break;
 
                 case (int)TetrominoNames.J:
-                    ChooseBlock(TetrominoNames.J);
+                    ChooseFormOfBlock(TetrominoNames.J);
                     break;
 
                 case (int)TetrominoNames.T:
-                    ChooseBlock(TetrominoNames.T);
+                    ChooseFormOfBlock(TetrominoNames.T);
                     break;
 
                 case (int)TetrominoNames.L:
-                    ChooseBlock(TetrominoNames.L);
+                    ChooseFormOfBlock(TetrominoNames.L);
                     break;
 
                 case (int)TetrominoNames.S:
-                    ChooseBlock(TetrominoNames.S);
+                    ChooseFormOfBlock(TetrominoNames.S);
                     break;
 
                 case (int)TetrominoNames.Z:
-                    ChooseBlock(TetrominoNames.Z);
+                    ChooseFormOfBlock(TetrominoNames.Z);
                     break;
             }
         }
@@ -76,7 +76,7 @@ namespace Application.Models.Shapes
             ch = Convert.ToChar(numOfChar);
         }
 
-        internal void GoDown()
+        internal void DropBlock()
         {
             for (int i = newBlock.Count - 1; i >= 0; i--)
             {
@@ -84,20 +84,15 @@ namespace Application.Models.Shapes
             }
         }
 
-        internal void RotateBlock(int angle)
+        internal void RotateBlock()
         {
-            List<Point> newTetromino = new List<Point> { };
-
             for (int i = 0; i < newBlock.Count; i++)
             {
-                int newX = newBlock[i].X * Convert.ToInt32(Math.Cos(angle)) - newBlock[i].Y * Convert.ToInt32(Math.Sin(angle));
-                int newY = newBlock[i].X * Convert.ToInt32(Math.Sin(angle)) + newBlock[i].Y * Convert.ToInt32(Math.Cos(angle));
-
-                newTetromino.Add(new Point(newX, newY, newBlock[i].Char));
+                newBlock[i].RotatePoint(newBlock[1], newBlock[i]);
             }
         }
 
-        private void ChooseBlock(TetrominoNames name)
+        private void ChooseFormOfBlock(TetrominoNames name)
         {
             switch (name)
             {

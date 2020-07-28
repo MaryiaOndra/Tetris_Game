@@ -15,7 +15,7 @@ namespace Application.Models
         {
             Console.SetWindowSize(GameWindowConst.WindowWidth, GameWindowConst.WindowHeight);
             Console.SetBufferSize(GameWindowConst.WindowWidth, GameWindowConst.WindowHeight);
-            //Console.CursorVisible = false;
+            Console.CursorVisible = false;
         }
     }
 }
