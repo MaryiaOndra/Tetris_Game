@@ -25,6 +25,7 @@ namespace Application.Models
         public void Start()
         {
             playField = new PlayField();
+            playField.CreateListOfFieldPoints();
 
             Score = 0;
 
@@ -54,7 +55,7 @@ namespace Application.Models
                     }
                 }
 
-                if (IsFullLines)
+                if (IsFullLines())
                 {
 
                 }
@@ -198,6 +199,7 @@ namespace Application.Models
         {
             bool answer = false;
 
+            
 
 
             return answer;

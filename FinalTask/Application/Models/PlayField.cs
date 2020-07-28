@@ -14,6 +14,7 @@ namespace Application.Models
         public Point[] RightSide { get; private set; }
         public Point[] LeftSide { get; private set; }
         public Point[] BottomSide { get; private set; }
+        public Point[][] PlayFieldPoints { get; internal set; }
 
         public PlayField()
         {
@@ -69,14 +70,22 @@ namespace Application.Models
             posY = PlayFieldConst.BorderYPos;
         }
 
-        internal void CreateListForChechinLines()
+        internal void CreateListOfFieldPoints()
         {
-            object[] vs = new object[PlayFieldConst.FieldHeight];
+            Point[][] points = new Point[PlayFieldConst.FieldHeight][];
+            Point startP = new Point(posX + 1, posY, ' ');
 
-            for (int i = 0; i < vs.Length; i++)
+            for (int i = 0; i < points.Length; i++)
             {
+                points[i] = new Point[PlayFieldConst.FieldWidth];
 
+                for (int j = 0; j < points[i].Length; j++)
+                {
+                    points[i][j] = new Point(startP.X + j, startP.Y + i, ' ');
+                }
             }
+
+            PlayFieldPoints = points;
         }
 
         //TODO: create nice frames : Console.WriteLine('╦');
