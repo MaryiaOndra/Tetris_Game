@@ -91,9 +91,7 @@ namespace Application.Models
                         }
                     }
                     else
-                    {
                         myBlock.DropBlock();
-                    }
                     break;
 
                 case ConsoleKey.RightArrow:
@@ -105,9 +103,7 @@ namespace Application.Models
                         }
                     }
                     else
-                    {
                         myBlock.DropBlock();
-                    }
                     break;
 
                 case ConsoleKey.DownArrow:
