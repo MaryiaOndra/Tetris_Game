@@ -57,18 +57,16 @@ namespace Application.Models.Shapes
             }
         }
 
-        internal void ShowNextBlock(int numOfNextBlock, int numNextChar) 
+        internal void RelocateNextBlock()
         {
-            CreateBlock(numOfNextBlock, numNextChar);
+            int stepsY = 5;
+            int stepsX = 15;
 
-            foreach (Point p in newBlock)
+            for (int i = 0; i < newBlock.Count; i++)
             {
-                p.DrawPoint();
+                newBlock[i].Clear();
+                newBlock[i].IncreaseXY(stepsX, stepsY);    
             }
-
-            //TODO:
-            //set cursor position?
-            //add numOfBlock == nextNumOfBlock to the end of loop, before creating new block
         }
 
         void ChooseRandomChar(int numOfChar)
@@ -169,7 +167,6 @@ namespace Application.Models.Shapes
                 default:
                     break;
             }
-        }
-        
+        }        
     }
 }

@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Application.Models
 {
-    sealed class PlayField
+    sealed class PlayField 
     {
         private int posX = PlayFieldConst.BorderXPos;
         private int posY = PlayFieldConst.BorderYPos;

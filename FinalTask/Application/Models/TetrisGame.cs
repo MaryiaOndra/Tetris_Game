@@ -11,35 +11,41 @@ namespace Application.Models
 {
     sealed class TetrisGame
     {
-        private Block myBlock;
+        private Block myBlock = new Block();
+        private Block nextBlock = new Block();
         private PlayField playField;
-        private Random random = new Random();
+        private List<Point> bulkOfUsedPoints = new List<Point>();
+
         private static int numOfBlock;
         private static int nextNumOfBlock;
         private static int numOfChar = BlockConst.StartNumChar;
         private static int nextNumOfChar;
-        private int time = 50;
-        private List<Point> bulkOfUsedPoints = new List<Point>();
-        private static int Score;
+        private static int difficulty = 0;
+        private static int time = 300;
+        private static int countOfPieses = 0;
+        private static int score = 0;
 
         public void Start()
         {
             playField = new PlayField();
             playField.CreateListOfFieldPoints();
-
-            Score = 0;
+            ShowHelpInf();
+            Thread.Sleep(700);
 
             while (true)
             {
-                myBlock = new Block();
+                ShowGameInf();
                 myBlock.CreateBlock(numOfBlock, numOfChar);
                 myBlock.DrawBlock();
 
+                Random random = new Random();
                 nextNumOfBlock = random.Next(6);
                 nextNumOfChar = random.Next(BlockConst.RangeChar) + BlockConst.StartNumChar;
+                nextBlock.CreateBlock(nextNumOfBlock, nextNumOfChar);
+                //nextBlock.RelocateNextBlock();                      
 
                 if (IsOver())
-                {                    
+                {
                     break;
                 }
 
@@ -47,11 +53,24 @@ namespace Application.Models
                 {
                     if (Console.KeyAvailable)
                     {
-                        HandleKey(Console.ReadKey(true).Key);
+                        HandlePressingKey(Console.ReadKey(true).Key);
                     }
                     else
                     {
-                        HandleKey(default);
+                        HandlePressingKey(default);
+                    }
+                }
+
+                if (countOfPieses > 3)
+                {
+                    time -= 50;
+                    difficulty++;
+                    countOfPieses = 0;
+
+                    if (time <= 50)
+                    {
+                        time = 50;
+                        difficulty = 10;
                     }
                 }
 
@@ -65,6 +84,7 @@ namespace Application.Models
                     bulkOfUsedPoints.Add(myBlock.newBlock[i]);
                 }
 
+                countOfPieses++;
                 numOfBlock = nextNumOfBlock;
                 numOfChar = nextNumOfChar;
             }
@@ -72,48 +92,48 @@ namespace Application.Models
             ShowGameOver();
         }
 
-        public void HandleKey(ConsoleKey consoleKey)
+        public void HandlePressingKey(ConsoleKey consoleKey)
         {
-            Thread.Sleep(time);
-
+            int sleepTime = 100;
+           
             switch (consoleKey)
             {
                 case ConsoleKey.UpArrow:
-                    myBlock.RotateBlock();
+                    if (!IsHitLeftSide() && !IsHitRightSide())
+                    {
+                        myBlock.RotateBlock();
+                    }
                     break;
 
                 case ConsoleKey.LeftArrow:
-                    if (!IsHitFieldSides())
+                    if (!IsHitLeftSide())
                     {
                         for (int i = 0; i < myBlock.newBlock.Capacity; i++)
                         {
                             myBlock.newBlock[i].MoveLeft();
                         }
                     }
-                    else
-                        myBlock.DropBlock();
                     break;
 
                 case ConsoleKey.RightArrow:
-                    if (!IsHitFieldSides())
+
+                    if (!IsHitRightSide())
                     {
                         for (int i = 0; i < myBlock.newBlock.Count; i++)
                         {
                             myBlock.newBlock[i].MoveRight();
                         }
                     }
-                    else
-                        myBlock.DropBlock();
                     break;
 
                 case ConsoleKey.DownArrow:
-
                     while (!IsHitBottomOrBlock())
                     {
-                        Thread.Sleep(time / 10);
+                        Thread.Sleep(20);
                         myBlock.DropBlock();
+                        myBlock.DrawBlock();
                     }
-                    break;
+                    break;                    
 
                 default:
                     Thread.Sleep(time);
@@ -122,18 +142,53 @@ namespace Application.Models
             }
 
             myBlock.DrawBlock();
+            Thread.Sleep(sleepTime * 2);
         }
 
         private static void ShowGameOver()
         {
             Console.ForegroundColor = ConsoleColor.Red;
             string text = "GAME OVER";
-            Console.SetCursorPosition(GameWindowConst.WindowWidth / 2 - text.Length / 2, PlayFieldConst.FieldHeight / 2);
+            int posLeft = GameWindowConst.WindowWidth / 2 - text.Length / 2;
+            int posTop = PlayFieldConst.FieldHeight / 2;
+
+            Console.SetCursorPosition(posLeft, posTop);
             Console.WriteLine(text);
             Console.ForegroundColor = ConsoleColor.White;
         }
 
-        #region BlockValidation
+        private void ShowGameInf()
+        {
+            int posLeft = (GameWindowConst.WindowWidth / 2 + GameWindowConst.WindowWidth) / 2;
+            int posTop = PlayFieldConst.FieldHeight / 4;
+
+            Console.SetCursorPosition(posLeft, posTop);
+            Console.WriteLine("Next piece: ");
+
+            Console.SetCursorPosition(posLeft, posTop * 2);
+            Console.WriteLine("Score: {0}", score);
+
+            Console.SetCursorPosition(posLeft, posTop * 3);
+            Console.WriteLine("Difficulty: {0}", difficulty);
+        }
+
+        private void ShowHelpInf() 
+        {
+            int posTop = PlayFieldConst.FieldHeight / 4;
+
+            Console.SetCursorPosition(0, posTop);
+            Console.WriteLine("\tHOT KEY");
+
+            Console.WriteLine("\n\tTurn Right: \n\tRIGHT ARROW");
+
+            Console.WriteLine("\n\tTurn Left: \n\tLEFT ARROW");
+
+            Console.WriteLine("\n\tRotate: \n\tUP ARROW");
+
+            Console.WriteLine("\n\tDrop Down: \n\tDOWN ARROW");
+        }
+
+        #region Validation
 
         private bool IsHitBottomOrBlock()
         {
@@ -161,14 +216,13 @@ namespace Application.Models
             return answer;
         }
 
-        private bool IsHitFieldSides()
+        private bool IsHitLeftSide()
         {
             bool answer = false;
 
             for (int i = 0; i < myBlock.newBlock.Count; i++)
             {
-                if (myBlock.newBlock[i].X.Equals(playField.RightSide[0].X - 1)
-                    || myBlock.newBlock[i].X.Equals(playField.LeftSide[0].X + 1))
+                if ( myBlock.newBlock[i].X.Equals(playField.LeftSide[0].X + 1))
                 {
                     answer = true;
                 }
@@ -176,6 +230,22 @@ namespace Application.Models
 
             return answer;
         }
+
+        private bool IsHitRightSide()
+        {
+            bool answer = false;
+
+            for (int i = 0; i < myBlock.newBlock.Count; i++)
+            {
+                if (myBlock.newBlock[i].X.Equals(playField.RightSide[0].X - 1))                    
+                {
+                    answer = true;
+                }
+            }
+
+            return answer;
+        }
+
         private bool IsOver()
         {
             bool answer = false;
@@ -191,11 +261,11 @@ namespace Application.Models
             return answer;
         }
 
-        private bool IsFullLines() 
+        private bool IsFullLines()
         {
             bool answer = false;
 
-            
+
 
 
             return answer;

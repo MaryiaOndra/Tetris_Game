@@ -18,8 +18,13 @@ namespace Application
     }
     public static class GameWindowConst
     {
-        public const int WindowWidth = 60;
-        public const int WindowHeight = 30;
+        public const string Greeting = "*****TETRIS GAME*****";
+        public const string PressEnter = "press ENTER to start the game";
+        public const int LeftCursorPos = WindowWidth / 2;
+        public const int TopCursorPos = WindowHeight / 2;
+
+        public const int WindowWidth = 80;
+        public const int WindowHeight = 25;
     }
 
     public static class PlayFieldConst

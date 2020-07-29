@@ -10,16 +10,24 @@ namespace Application
     {
         static void Main(string[] args)
         {
+            new GameWindow();
 
-            GameWindow gameWindow = new GameWindow();
+            Console.SetCursorPosition(GameWindowConst.WindowWidth / 2 - 
+                GameWindowConst.Greeting.Length / 2, GameWindowConst.WindowHeight / 2 - 2);
+            Console.WriteLine(GameWindowConst.Greeting);
 
-            //time = new Timer(Loop(), null, 0, 200);
+            Console.SetCursorPosition(GameWindowConst.LeftCursorPos -
+                 GameWindowConst.PressEnter.Length / 2, GameWindowConst.TopCursorPos);
 
-            TetrisGame tetrisLogic =  new TetrisGame();
+            Console.WriteLine(GameWindowConst.PressEnter);
 
+            while (Console.ReadKey(true).Key != ConsoleKey.Enter)
+            {
+            }
+
+            TetrisGame tetrisLogic = new TetrisGame();
+            Console.Clear();
             tetrisLogic.Start();
-
-            Console.ReadLine();
         }
     }
 }

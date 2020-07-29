@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Application.Models
 {
-    class GameWindow
+    sealed class GameWindow
     {
         public GameWindow()
         {

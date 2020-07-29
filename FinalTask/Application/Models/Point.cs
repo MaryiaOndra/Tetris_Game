@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Application.Models
 {
-   class Point
+   sealed class Point
    {
         const int Angle = 90;
 
@@ -62,6 +62,12 @@ namespace Application.Models
         {
             Clear();
             Y++;
+        }
+
+        internal void IncreaseXY(int stepsX, int stepsY) 
+        {
+            Y += stepsX;
+            X += stepsY;        
         }
     }
 }
