@@ -1,4 +1,4 @@
-# Practic-Task---Calculator
+# Practic-Task---TETRIS
 This console game will be representing a classic Tetris game where you have a “cup” and falling down blocks in different shapes, you should move and rotate the blocks by pressing control buttons on the keyboard until they form a solid line or until the blocks reach the edge of the game cup. After some time the speed of falling blocks will increase.
 
 Start window:
