@@ -1,11 +1,12 @@
 ﻿using Application.Enums;
+using Application.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Application.Models
 {
-   sealed class Point
+   class Point : IMovements, IDrawClear
    {
         const int Angle = 90;
 
@@ -20,34 +21,30 @@ namespace Application.Models
             Char = ch;
         }
 
-        internal void Clear()
+        public void Clear()
         {
             Console.SetCursorPosition(X, Y);
             Console.Write(PointConst.EmptySpace);
         }
 
-        internal void DrawPoint()
+        public void Draw()
         {
             Console.SetCursorPosition(X, Y);
             Console.Write(Char);
         }
 
-        internal void MoveRight() 
+        public void MoveRight() 
         {
-            Clear();
             X++;
         }   
         
-        internal void MoveLeft() 
+        public void MoveLeft() 
         {
-            Clear();
             X--;
         }
 
-        internal void RotatePoint(Point centerPoint, Point pointToRotate) 
+        public void RotatePoint(Point centerPoint, Point pointToRotate) 
         {
-            Clear();
-
             double angleInRadians = Angle * (Math.PI / 180);
             double cosTheta = Math.Cos(angleInRadians);
             double sinTheta = Math.Sin(angleInRadians);
@@ -58,16 +55,15 @@ namespace Application.Models
             Y = (int)newY;
         }
 
-        internal void DropDown()
+        public void MoveDown()
         {
-            Clear();
             Y++;
         }
 
         internal void IncreaseXY(int stepsX, int stepsY) 
         {
-            Y += stepsX;
-            X += stepsY;        
+            Y += stepsY;
+            X += stepsX;        
         }
     }
 }

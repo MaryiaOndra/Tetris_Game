@@ -12,9 +12,11 @@ namespace Application.Models
     sealed class TetrisGame
     {
         private Block myBlock = new Block();
+        private Block oldBlock = new Block();
         private Block nextBlock = new Block();
+
         private PlayField playField;
-        private List<Point> bulkOfUsedPoints = new List<Point>();
+        private List<Point> usedPoints = new List<Point>();
 
         private static int numOfBlock;
         private static int nextNumOfBlock;
@@ -36,13 +38,7 @@ namespace Application.Models
             {
                 ShowGameInf();
                 myBlock.CreateBlock(numOfBlock, numOfChar);
-                myBlock.DrawBlock();
-
-                Random random = new Random();
-                nextNumOfBlock = random.Next(6);
-                nextNumOfChar = random.Next(BlockConst.RangeChar) + BlockConst.StartNumChar;
-                nextBlock.CreateBlock(nextNumOfBlock, nextNumOfChar);
-                //nextBlock.RelocateNextBlock();                      
+                myBlock.Draw();
 
                 if (IsOver())
                 {
@@ -76,12 +72,12 @@ namespace Application.Models
 
                 if (IsFullLines())
                 {
-
+                    score += 100;
                 }
 
                 for (int i = 0; i < myBlock.newBlock.Count; i++)
                 {
-                    bulkOfUsedPoints.Add(myBlock.newBlock[i]);
+                    usedPoints.Add(myBlock.newBlock[i]);
                 }
 
                 countOfPieses++;
@@ -99,55 +95,47 @@ namespace Application.Models
             switch (consoleKey)
             {
                 case ConsoleKey.UpArrow:
+
                     if (!IsHitLeftSide() && !IsHitRightSide())
-                    {
                         myBlock.RotateBlock();
-                    }
                     break;
 
                 case ConsoleKey.LeftArrow:
+
                     if (!IsHitLeftSide())
-                    {
-                        for (int i = 0; i < myBlock.newBlock.Capacity; i++)
-                        {
-                            myBlock.newBlock[i].MoveLeft();
-                        }
-                    }
+                        myBlock.MoveLeft();
                     break;
 
                 case ConsoleKey.RightArrow:
 
                     if (!IsHitRightSide())
-                    {
-                        for (int i = 0; i < myBlock.newBlock.Count; i++)
-                        {
-                            myBlock.newBlock[i].MoveRight();
-                        }
-                    }
+                        myBlock.MoveRight();
                     break;
 
                 case ConsoleKey.DownArrow:
+
                     while (!IsHitBottomOrBlock())
                     {
                         Thread.Sleep(20);
-                        myBlock.DropBlock();
-                        myBlock.DrawBlock();
+                        myBlock.MoveDown();
+                        myBlock.Draw();
                     }
                     break;                    
 
                 default:
                     Thread.Sleep(time);
-                    myBlock.DropBlock();
+                    myBlock.MoveDown();
                     break;
             }
 
-            myBlock.DrawBlock();
+            myBlock.Draw();
             Thread.Sleep(sleepTime * 2);
         }
 
         private static void ShowGameOver()
         {
             Console.ForegroundColor = ConsoleColor.Red;
+
             string text = "GAME OVER";
             int posLeft = GameWindowConst.WindowWidth / 2 - text.Length / 2;
             int posTop = PlayFieldConst.FieldHeight / 2;
@@ -155,6 +143,21 @@ namespace Application.Models
             Console.SetCursorPosition(posLeft, posTop);
             Console.WriteLine(text);
             Console.ForegroundColor = ConsoleColor.White;
+        }
+
+        private void ShowNextFigure() 
+        {
+            oldBlock.CreateBlock(numOfBlock, numOfChar);
+            oldBlock.RelocateBlock();
+
+            Random random = new Random();
+            nextNumOfBlock = random.Next(6);
+            nextNumOfChar = random.Next(BlockConst.RangeChar) + BlockConst.StartNumChar;
+
+            nextBlock.CreateBlock(nextNumOfBlock, nextNumOfChar);
+            nextBlock.RelocateBlock();
+            oldBlock.Clear();
+            nextBlock.Draw();
         }
 
         private void ShowGameInf()
@@ -165,10 +168,12 @@ namespace Application.Models
             Console.SetCursorPosition(posLeft, posTop);
             Console.WriteLine("Next piece: ");
 
-            Console.SetCursorPosition(posLeft, posTop * 2);
-            Console.WriteLine("Score: {0}", score);
+            ShowNextFigure();            
 
             Console.SetCursorPosition(posLeft, posTop * 3);
+            Console.WriteLine("Score: {0}", score);
+
+            Console.SetCursorPosition(posLeft, posTop * 4);
             Console.WriteLine("Difficulty: {0}", difficulty);
         }
 
@@ -177,6 +182,7 @@ namespace Application.Models
             int posTop = PlayFieldConst.FieldHeight / 4;
 
             Console.SetCursorPosition(0, posTop);
+
             Console.WriteLine("\tHOT KEY");
 
             Console.WriteLine("\n\tTurn Right: \n\tRIGHT ARROW");
@@ -196,10 +202,10 @@ namespace Application.Models
 
             for (int i = 0; i < myBlock.newBlock.Count; i++)
             {
-                for (int j = 0; j < bulkOfUsedPoints.Count; j++)
+                for (int j = 0; j < usedPoints.Count; j++)
                 {
-                    if (myBlock.newBlock[i].Y.Equals(bulkOfUsedPoints[j].Y - 1)
-                        && myBlock.newBlock[i].X.Equals(bulkOfUsedPoints[j].X))
+                    if (myBlock.newBlock[i].Y.Equals(usedPoints[j].Y - 1)
+                        && myBlock.newBlock[i].X.Equals(usedPoints[j].X))
                     {
                         answer = true;
                         break;
@@ -250,9 +256,9 @@ namespace Application.Models
         {
             bool answer = false;
 
-            for (int i = 0; i < bulkOfUsedPoints.Count; i++)
+            for (int i = 0; i < usedPoints.Count; i++)
             {
-                if (bulkOfUsedPoints[i].Y.Equals(BlockConst.StartY))
+                if (usedPoints[i].Y.Equals(BlockConst.StartY))
                 {
                     answer = true;
                 }
@@ -264,10 +270,33 @@ namespace Application.Models
         private bool IsFullLines()
         {
             bool answer = false;
+            int y = PlayFieldConst.FieldHeight;
+            int maxCount = PlayFieldConst.FieldWidth;
+            int count = 0;
+            int row = 0;
 
 
 
+            for (int i = y; i > 0; i--)
+            {
+                for (int j = 0; j < usedPoints.Count; j++)
+                {
+                    if (usedPoints[j].Y.Equals(i))
+                    {
+                        count++;
+                    }
+                    if (count.Equals(maxCount))
+                    {
+                        row = i;
+                        count = 0;
+                    }
+                }
+            }
 
+            if (count.Equals(maxCount))
+            {
+                answer = true;
+            }
             return answer;
         }
 

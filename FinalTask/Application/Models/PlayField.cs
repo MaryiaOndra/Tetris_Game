@@ -14,7 +14,7 @@ namespace Application.Models
         public Point[] RightSide { get; private set; }
         public Point[] LeftSide { get; private set; }
         public Point[] BottomSide { get; private set; }
-        public Point[][] PlayFieldPoints { get; internal set; }
+        public Point[][] Points { get; internal set; }
 
         public PlayField()
         {
@@ -32,7 +32,7 @@ namespace Application.Models
             for (int i = 0; i < PlayFieldConst.FieldHeight; i++)
             {
                 LeftSide[i] = new Point(posX, posY, fieldChar);
-                LeftSide[i].DrawPoint();
+                LeftSide[i].Draw();
                 posY++;
             }
 
@@ -47,7 +47,7 @@ namespace Application.Models
             for (int i = 0; i < PlayFieldConst.FieldHeight; i++)
             {
                 RightSide[i] = new Point((posX + PlayFieldConst.FieldWidth), posY, fieldChar);
-                RightSide[i].DrawPoint();
+                RightSide[i].Draw();
                 posY++;
             }
 
@@ -62,7 +62,7 @@ namespace Application.Models
             for (int i = 0; i < PlayFieldConst.FieldWidth + 1; i++)
             {
                 BottomSide[i] = new Point(posX, (posY + PlayFieldConst.FieldHeight), fieldChar);
-                BottomSide[i].DrawPoint();
+                BottomSide[i].Draw();
                 posX++;
             }
 
@@ -85,7 +85,7 @@ namespace Application.Models
                 }
             }
 
-            PlayFieldPoints = points;
+            Points = points;
         }
 
         //TODO: create nice frames : Console.WriteLine('╦');

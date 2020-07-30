@@ -1,21 +1,23 @@
 ﻿using Application.Enums;
+using Application.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Application.Models.Shapes
 {
-    sealed class Block
+    sealed class Block : IMovements, IDrawClear
     {
         private int x = BlockConst.StartX;
         private int y = BlockConst.StartY;
         private char ch = 'A';
 
         internal List<Point> newBlock { get; private set; }
+        internal static List<Point> oldBlock { get; set; }
 
         internal void CreateBlock(int numOfBlock, int numOfChar)
         {
-            ChooseRandomChar(numOfChar);
+            ch = Convert.ToChar(numOfChar);
 
             switch (numOfBlock)
             {
@@ -49,44 +51,66 @@ namespace Application.Models.Shapes
             }
         }
 
-        internal void DrawBlock() 
+        public void MoveRight()
         {
-            for (int i = 0; i < newBlock.Count; i++)
-            {
-                newBlock[i].DrawPoint();
-            }
-        }
-
-        internal void RelocateNextBlock()
-        {
-            int stepsY = 5;
-            int stepsX = 15;
-
             for (int i = 0; i < newBlock.Count; i++)
             {
                 newBlock[i].Clear();
-                newBlock[i].IncreaseXY(stepsX, stepsY);    
+                newBlock[i].MoveRight();
             }
         }
 
-        void ChooseRandomChar(int numOfChar)
-        {
-            ch = Convert.ToChar(numOfChar);
-        }
-
-        internal void DropBlock()
-        {
-            for (int i = newBlock.Count - 1; i >= 0; i--)
-            {
-                newBlock[i].DropDown();
-            }
-        }
-
-        internal void RotateBlock()
+        public void MoveLeft()
         {
             for (int i = 0; i < newBlock.Count; i++)
             {
+                newBlock[i].Clear();
+                newBlock[i].MoveLeft();
+            }
+        }
+
+        public void MoveDown()
+        {
+            for (int i = newBlock.Count - 1; i >= 0; i--)
+            {
+                newBlock[i].Clear();
+                newBlock[i].MoveDown();
+            }
+        }
+
+        public void RotateBlock()
+        {
+            for (int i = 0; i < newBlock.Count; i++)
+            {
+                newBlock[i].Clear();
                 newBlock[i].RotatePoint(newBlock[1], newBlock[i]);
+            }
+        }
+
+        public void Draw()
+        {
+            for (int i = 0; i < newBlock.Count; i++)
+            {
+                newBlock[i].Draw();
+            }
+        }
+
+        public void Clear()
+        {
+            for (int i = 0; i < newBlock.Count; i++)
+            {
+                newBlock[i].Clear();
+            }
+        }
+
+        internal void RelocateBlock()
+        {
+            int stepsY = 7;
+            int stepsX = 25;
+
+            for (int i = 0; i < newBlock.Count; i++)
+            {
+                newBlock[i].IncreaseXY(stepsX, stepsY);
             }
         }
 
@@ -167,6 +191,6 @@ namespace Application.Models.Shapes
                 default:
                     break;
             }
-        }        
+        }
     }
 }
