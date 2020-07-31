@@ -87,8 +87,5 @@ namespace Application.Models
 
             Points = points;
         }
-
-        //TODO: create nice frames : Console.WriteLine('╦');
-        //char[] vs = { '║', '║', '║', '║', '║' };
     }
 }

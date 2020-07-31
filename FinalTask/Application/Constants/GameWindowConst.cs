@@ -19,10 +19,19 @@ namespace Application
     public static class GameWindowConst
     {
         public const string Greeting = "*****TETRIS GAME*****";
+        public const string Greeting2 = @"
+        .___________. _______ .___________..______       __       _______.
+        |           ||   ____||           ||   _  \     |  |     /       |
+        `---|  |----`|  |__   `---|  |----`|  |_)  |    |  |    |   (----`
+            |  |     |   __|      |  |     |      /     |  |     \   \    
+            |  |     |  |____     |  |     |  |\  \----.|  | .----)   |   
+            |__|     |_______|    |__|     | _| `._____||__| |_______/    
+                                                                          ";
         public const string PressEnter = "press ENTER to start the game";
+        public const string Thanks = "Thank you for playing!";
+        public const string EnterName = "Please enter your name: ";
         public const int LeftCursorPos = WindowWidth / 2;
         public const int TopCursorPos = WindowHeight / 2;
-
         public const int WindowWidth = 80;
         public const int WindowHeight = 25;
     }

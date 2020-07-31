@@ -3,6 +3,7 @@ using Application.Models.Shapes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Reflection.Metadata;
 using System.Text;
 using System.Threading;
@@ -26,15 +27,17 @@ namespace Application.Models
         private static int time = 300;
         private static int countOfPieses = 0;
         private static int score = 0;
+        private static bool pause = false;
+        private bool gameOver = false;
 
         public void Start()
         {
             playField = new PlayField();
             playField.CreateListOfFieldPoints();
             ShowHelpInf();
-            Thread.Sleep(700);
+            Thread.Sleep(500);
 
-            while (true)
+            while (!gameOver)
             {
                 ShowGameInf();
                 myBlock.CreateBlock(numOfBlock, numOfChar);
@@ -42,6 +45,7 @@ namespace Application.Models
 
                 if (IsOver())
                 {
+                    gameOver = true;
                     break;
                 }
 
@@ -57,9 +61,15 @@ namespace Application.Models
                     }
                 }
 
-                if (countOfPieses > 3)
+                if (pause)
+                {
+
+                }
+
+                if (countOfPieses > 5)
                 {
                     time -= 50;
+                    score += 50;
                     difficulty++;
                     countOfPieses = 0;
 
@@ -68,11 +78,6 @@ namespace Application.Models
                         time = 50;
                         difficulty = 10;
                     }
-                }
-
-                if (IsFullLines())
-                {
-                    score += 100;
                 }
 
                 for (int i = 0; i < myBlock.newBlock.Count; i++)
@@ -86,6 +91,7 @@ namespace Application.Models
             }
 
             ShowGameOver();
+            Thread.Sleep(500);
         }
 
         public void HandlePressingKey(ConsoleKey consoleKey)
@@ -120,7 +126,12 @@ namespace Application.Models
                         myBlock.MoveDown();
                         myBlock.Draw();
                     }
-                    break;                    
+                    break;
+
+                case ConsoleKey.P:
+                    while (Console.ReadKey(true).Key != ConsoleKey.P) { };
+                    myBlock.MoveDown();
+                    break;
 
                 default:
                     Thread.Sleep(time);
@@ -192,7 +203,10 @@ namespace Application.Models
             Console.WriteLine("\n\tRotate: \n\tUP ARROW");
 
             Console.WriteLine("\n\tDrop Down: \n\tDOWN ARROW");
+
+            Console.WriteLine("\n\tPause: \n\tP");
         }
+
 
         #region Validation
 
@@ -274,8 +288,6 @@ namespace Application.Models
             int maxCount = PlayFieldConst.FieldWidth;
             int count = 0;
             int row = 0;
-
-
 
             for (int i = y; i > 0; i--)
             {
