@@ -4,6 +4,12 @@ using System.Text;
 
 namespace Application
 {
+    public static class TetrisGameConst 
+    {
+        public const int posYPause = 23;
+        public const string Pause = "# Pause is active, to diactivate press 'P'#";
+    }
+
     public static class BlockConst 
     {
         public const int StartX = PlayFieldConst.BorderXPos + PlayFieldConst.FieldWidth / 2;
@@ -16,6 +22,7 @@ namespace Application
     {
         public const char EmptySpace = ' ';
     }
+
     public static class GameWindowConst
     {
         public const string Greeting = "*****TETRIS GAME*****";
@@ -30,6 +37,8 @@ namespace Application
         public const string PressEnter = "press ENTER to start the game";
         public const string Thanks = "Thank you for playing!";
         public const string EnterName = "Please enter your name: ";
+        public const string WantTryAgain = "Do you want to try one more time? Y/N";
+
         public const int LeftCursorPos = WindowWidth / 2;
         public const int TopCursorPos = WindowHeight / 2;
         public const int WindowWidth = 80;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.ExtensionMethods;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,13 +16,10 @@ namespace Application.Models
 
         internal void ShowTitle()
         {
-            Console.SetCursorPosition(0, GameWindowConst.WindowHeight / 5);
-            Console.WriteLine(GameWindowConst.Greeting2);
+            GameWindowConst.Greeting2.WriteStrInSpecialPlace(0, GameWindowConst.WindowHeight / 5);
 
-            Console.SetCursorPosition(GameWindowConst.LeftCursorPos -
+            GameWindowConst.PressEnter.WriteStrInSpecialPlace(GameWindowConst.LeftCursorPos -
                  GameWindowConst.PressEnter.Length / 2, GameWindowConst.TopCursorPos + 2);
-
-            Console.WriteLine(GameWindowConst.PressEnter);
 
             while (Console.ReadKey(true).Key != ConsoleKey.Enter)
             {
@@ -31,44 +29,41 @@ namespace Application.Models
         }
 
         internal string AskName()
-        {
+        {            
             Console.Clear();
 
-            Console.SetCursorPosition(GameWindowConst.LeftCursorPos -
-                 GameWindowConst.Thanks.Length / 2, GameWindowConst.TopCursorPos);
+            GameWindowConst.Thanks.WriteStrInSpecialPlace(GameWindowConst.LeftCursorPos
+                - GameWindowConst.Thanks.Length / 2, GameWindowConst.TopCursorPos);
 
-            Console.WriteLine(GameWindowConst.Thanks);
-
-            Console.SetCursorPosition(GameWindowConst.LeftCursorPos - GameWindowConst.EnterName.Length / 2,
-                GameWindowConst.TopCursorPos + 2);
-
-            Console.WriteLine(GameWindowConst.EnterName);
-
-            Console.SetCursorPosition(GameWindowConst.LeftCursorPos + GameWindowConst.EnterName.Length / 2,
-               GameWindowConst.TopCursorPos + 2);
+            GameWindowConst.EnterName.WriteStrInSpecialPlace(GameWindowConst.LeftCursorPos
+                - GameWindowConst.EnterName.Length / 2, GameWindowConst.TopCursorPos + 2);
 
             Console.CursorVisible = true;
 
             Console.ForegroundColor = ConsoleColor.DarkYellow;
 
+            Console.SetCursorPosition(GameWindowConst.LeftCursorPos
+                - GameWindowConst.EnterName.Length / 2, GameWindowConst.TopCursorPos + 4);
+
             string name = Console.ReadLine().ToString();
 
             Console.CursorVisible = false;
 
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ResetColor();
 
             return name;
         }
         internal bool TryAgain()
         {
-            string text = "Do you want to continue? Y/N";
-            int posLeft = GameWindowConst.WindowWidth / 2 - text.Length / 2;
-            int posTop = PlayFieldConst.FieldHeight / 2 + 2;
-            bool answer = true;
             ConsoleKeyInfo keyInfo;
+            bool answer;
 
-            Console.SetCursorPosition(posLeft, posTop);
-            Console.WriteLine(text);
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            GameWindowConst.WantTryAgain.WriteStrInSpecialPlace(GameWindowConst.WindowWidth / 2 
+                - GameWindowConst.WantTryAgain.Length / 2, PlayFieldConst.FieldHeight / 2 + 2);
+
+            Console.ResetColor();
 
             do
             {

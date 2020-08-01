@@ -1,4 +1,5 @@
 ﻿using Application.Enums;
+using Application.ExtensionMethods;
 using Application.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ namespace Application.Models
         private static int time = 300;
         private static int countOfPieses = 0;
         private static int score = 0;
-        private static bool pause = false;
+        private static bool escape = false;
         private bool gameOver = false;
 
         public void Start()
@@ -55,15 +56,14 @@ namespace Application.Models
                     {
                         HandlePressingKey(Console.ReadKey(true).Key);
                     }
+                    else if(gameOver)
+                    {
+                        break;
+                    }
                     else
                     {
                         HandlePressingKey(default);
                     }
-                }
-
-                if (pause)
-                {
-
                 }
 
                 if (countOfPieses > 5)
@@ -97,7 +97,7 @@ namespace Application.Models
         public void HandlePressingKey(ConsoleKey consoleKey)
         {
             int sleepTime = 100;
-           
+
             switch (consoleKey)
             {
                 case ConsoleKey.UpArrow:
@@ -129,8 +129,21 @@ namespace Application.Models
                     break;
 
                 case ConsoleKey.P:
+                    TetrisGameConst.Pause.WriteStrInSpecialPlace(
+                        GameWindowConst.LeftCursorPos
+                        - TetrisGameConst.Pause.Length / 2, TetrisGameConst.posYPause);
+
                     while (Console.ReadKey(true).Key != ConsoleKey.P) { };
+
+                    TetrisGameConst.Pause.CleanStrInSpecialPlace(
+                        GameWindowConst.LeftCursorPos
+                        - TetrisGameConst.Pause.Length / 2, TetrisGameConst.posYPause);
+
                     myBlock.MoveDown();
+                    break;
+
+                case ConsoleKey.Escape:
+                    gameOver = true;
                     break;
 
                 default:
@@ -153,10 +166,10 @@ namespace Application.Models
 
             Console.SetCursorPosition(posLeft, posTop);
             Console.WriteLine(text);
-            Console.ForegroundColor = ConsoleColor.White;
+            Console.ResetColor();
         }
 
-        private void ShowNextFigure() 
+        private void ShowNextFigure()
         {
             oldBlock.CreateBlock(numOfBlock, numOfChar);
             oldBlock.RelocateBlock();
@@ -179,7 +192,7 @@ namespace Application.Models
             Console.SetCursorPosition(posLeft, posTop);
             Console.WriteLine("Next piece: ");
 
-            ShowNextFigure();            
+            ShowNextFigure();
 
             Console.SetCursorPosition(posLeft, posTop * 3);
             Console.WriteLine("Score: {0}", score);
@@ -188,9 +201,9 @@ namespace Application.Models
             Console.WriteLine("Difficulty: {0}", difficulty);
         }
 
-        private void ShowHelpInf() 
+        private void ShowHelpInf()
         {
-            int posTop = PlayFieldConst.FieldHeight / 4;
+            int posTop = PlayFieldConst.FieldHeight / 7;
 
             Console.SetCursorPosition(0, posTop);
 
@@ -205,6 +218,8 @@ namespace Application.Models
             Console.WriteLine("\n\tDrop Down: \n\tDOWN ARROW");
 
             Console.WriteLine("\n\tPause: \n\tP");
+
+            Console.WriteLine("\n\tCancel the game: \n\tESC");
         }
 
 
@@ -242,7 +257,7 @@ namespace Application.Models
 
             for (int i = 0; i < myBlock.newBlock.Count; i++)
             {
-                if ( myBlock.newBlock[i].X.Equals(playField.LeftSide[0].X + 1))
+                if (myBlock.newBlock[i].X.Equals(playField.LeftSide[0].X + 1))
                 {
                     answer = true;
                 }
@@ -257,7 +272,7 @@ namespace Application.Models
 
             for (int i = 0; i < myBlock.newBlock.Count; i++)
             {
-                if (myBlock.newBlock[i].X.Equals(playField.RightSide[0].X - 1))                    
+                if (myBlock.newBlock[i].X.Equals(playField.RightSide[0].X - 1))
                 {
                     answer = true;
                 }
