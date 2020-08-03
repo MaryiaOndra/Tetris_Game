@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace Application.Models
 {
     sealed class GameWindow
     {
+        string path = Directory.GetCurrentDirectory() + @"\scores.txt";
+
         internal void SetWindowParameters()
         {
             Console.SetWindowSize(GameWindowConst.WindowWidth, GameWindowConst.WindowHeight);
@@ -29,7 +32,7 @@ namespace Application.Models
         }
 
         internal string AskName()
-        {            
+        {
             Console.Clear();
 
             GameWindowConst.Thanks.WriteStrInSpecialPlace(GameWindowConst.LeftCursorPos
@@ -40,19 +43,83 @@ namespace Application.Models
 
             Console.CursorVisible = true;
 
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            string name;
 
-            Console.SetCursorPosition(GameWindowConst.LeftCursorPos
-                - GameWindowConst.EnterName.Length / 2, GameWindowConst.TopCursorPos + 4);
+            while (true)
+            {
 
-            string name = Console.ReadLine().ToString();
+                Console.SetCursorPosition(GameWindowConst.LeftCursorPos
+                    - GameWindowConst.EnterName.Length / 2, GameWindowConst.TopCursorPos + 4);
+
+                name = Console.ReadLine().ToString();
+                                
+                if (!(name.Length > 15))
+                {
+                    GameWindowConst.ChooseShortName.CleanStrInSpecialPlace(GameWindowConst.LeftCursorPos
+                      - (GameWindowConst.ChooseShortName.Length / 2), GameWindowConst.TopCursorPos + 6);
+
+                    break;
+                }
+                else
+                {
+                    GameWindowConst.ChooseShortName.WriteStrInSpecialPlace(GameWindowConst.LeftCursorPos
+                        - GameWindowConst.ChooseShortName.Length / 2, GameWindowConst.TopCursorPos + 6);
+
+                    name.CleanStrInSpecialPlace(GameWindowConst.LeftCursorPos
+                        - GameWindowConst.EnterName.Length / 2, GameWindowConst.TopCursorPos + 4);
+                }
+            }
 
             Console.CursorVisible = false;
 
-            Console.ResetColor();
-
             return name;
         }
+
+        internal void AddNameToScore(string name, int score)
+        {
+            if (!File.Exists(path))
+            {
+                var newFile = File.Create(path);
+                newFile.Close();
+            }
+
+            string[] lines = File.ReadAllLines(path);
+
+            if (lines.Length.Equals(0))
+            {
+                TextWriter text = new StreamWriter(path, true);
+                text.WriteLine($"\n\t{name}" + $"\t\t\t{score}");
+                text.Close();
+            }
+            else
+            {
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    if (i.Equals(lines.Length - 1))
+                    {
+                        TextWriter text = new StreamWriter(path, true);
+                        text.WriteLine($"\n\t{name}" + $"\t\t\t{score}");
+                        text.Close();
+                    }
+                }
+            }
+        }
+
+        public void ShowScore()
+        {
+            Console.Clear();
+
+            ScoreTable.Name.WriteStrInSpecialPlace(5, 5);
+            ScoreTable.Score.WriteStrInSpecialPlace(30, 5);
+
+            string[] lines = File.ReadAllLines(path);
+
+            foreach (var line in lines)
+            {
+                Console.WriteLine(line);
+            }
+        }
+
         internal bool TryAgain()
         {
             ConsoleKeyInfo keyInfo;
@@ -60,7 +127,7 @@ namespace Application.Models
 
             Console.ForegroundColor = ConsoleColor.Red;
 
-            GameWindowConst.WantTryAgain.WriteStrInSpecialPlace(GameWindowConst.WindowWidth / 2 
+            GameWindowConst.WantTryAgain.WriteStrInSpecialPlace(GameWindowConst.WindowWidth / 2
                 - GameWindowConst.WantTryAgain.Length / 2, PlayFieldConst.FieldHeight / 2 + 2);
 
             Console.ResetColor();

@@ -1,13 +1,11 @@
-﻿using Application.Enums;
-using Application.ExtensionMethods;
+﻿using Application.ExtensionMethods;
 using Application.Models.Shapes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Reflection.Metadata;
-using System.Text;
 using System.Threading;
+using System.Reflection;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Application.Models
 {
@@ -19,6 +17,7 @@ namespace Application.Models
 
         private PlayField playField;
         private List<Point> usedPoints = new List<Point>();
+        static string path = Directory.GetCurrentDirectory() + @"\scores.txt";
 
         private static int numOfBlock;
         private static int nextNumOfBlock;
@@ -27,13 +26,19 @@ namespace Application.Models
         private static int difficulty = 0;
         private static int time = 300;
         private static int countOfPieses = 0;
-        private static int score = 0;
         private static bool escape = false;
         private bool gameOver = false;
 
+        public static int Score { get; private set; } = 0;
+
         public void Start()
         {
+            new LogWriter(LogConst.StartLog, MethodBase.GetCurrentMethod().ToString());
+
+            Score = 0;
+            difficulty = 0;
             playField = new PlayField();
+
             playField.CreateListOfFieldPoints();
             ShowHelpInf();
             Thread.Sleep(500);
@@ -69,9 +74,11 @@ namespace Application.Models
                 if (countOfPieses > 5)
                 {
                     time -= 50;
-                    score += 50;
+                    Score += 50;
                     difficulty++;
                     countOfPieses = 0;
+                    
+                    new LogWriter(LogConst.StartLog, MethodBase.GetCurrentMethod().ToString());
 
                     if (time <= 50)
                     {
@@ -87,7 +94,7 @@ namespace Application.Models
 
                 countOfPieses++;
                 numOfBlock = nextNumOfBlock;
-                numOfChar = nextNumOfChar;
+                numOfChar = nextNumOfChar;                
             }
 
             ShowGameOver();
@@ -158,6 +165,8 @@ namespace Application.Models
 
         private static void ShowGameOver()
         {
+            new LogWriter(LogConst.FinishLog, MethodBase.GetCurrentMethod().ToString());
+
             Console.ForegroundColor = ConsoleColor.Red;
 
             string text = "GAME OVER";
@@ -195,7 +204,7 @@ namespace Application.Models
             ShowNextFigure();
 
             Console.SetCursorPosition(posLeft, posTop * 3);
-            Console.WriteLine("Score: {0}", score);
+            Console.WriteLine("Score: {0}", Score);
 
             Console.SetCursorPosition(posLeft, posTop * 4);
             Console.WriteLine("Difficulty: {0}", difficulty);
@@ -221,8 +230,7 @@ namespace Application.Models
 
             Console.WriteLine("\n\tCancel the game: \n\tESC");
         }
-
-
+        
         #region Validation
 
         private bool IsHitBottomOrBlock()

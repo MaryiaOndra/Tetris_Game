@@ -4,6 +4,17 @@ using System.Text;
 
 namespace Application
 {
+    public static class ScoreTable 
+    {
+        public const string Name = "Name of player:";
+        public const string Score = "Score:";
+    }
+    public static class LogConst 
+    {
+        public const string StartLog = "Start game";
+        public const string FinishLog = "Finish game";
+        public const string Increase = "Increase difficulty and time";
+    }
     public static class TetrisGameConst 
     {
         public const int posYPause = 23;
@@ -38,6 +49,7 @@ namespace Application
         public const string Thanks = "Thank you for playing!";
         public const string EnterName = "Please enter your name: ";
         public const string WantTryAgain = "Do you want to try one more time? Y/N";
+        public const string ChooseShortName = "Please choose name shorter";
 
         public const int LeftCursorPos = WindowWidth / 2;
         public const int TopCursorPos = WindowHeight / 2;
