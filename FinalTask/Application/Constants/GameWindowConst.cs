@@ -13,12 +13,12 @@ namespace Application
     {
         public const string StartLog = "Start game";
         public const string FinishLog = "Finish game";
-        public const string Increase = "Increase difficulty and time";
+        public const string Increase = "Increase difficulty and speed";
     }
     public static class TetrisGameConst 
     {
         public const int posYPause = 23;
-        public const string Pause = "# Pause is active, to diactivate press 'P'#";
+        public const string Pause = "# Pause is active, to diactivate press 'P' #";
     }
 
     public static class BlockConst 

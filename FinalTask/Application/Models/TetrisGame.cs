@@ -6,6 +6,7 @@ using System.Threading;
 using System.Reflection;
 using System.IO;
 using System.Xml.Serialization;
+using Application.Logs;
 
 namespace Application.Models
 {
@@ -33,7 +34,7 @@ namespace Application.Models
 
         public void Start()
         {
-            new LogWriter(LogConst.StartLog, MethodBase.GetCurrentMethod().ToString());
+            Utility.Logger(LogConst.StartLog);
 
             Score = 0;
             difficulty = 0;
@@ -77,8 +78,8 @@ namespace Application.Models
                     Score += 50;
                     difficulty++;
                     countOfPieses = 0;
-                    
-                    new LogWriter(LogConst.StartLog, MethodBase.GetCurrentMethod().ToString());
+
+                    Utility.Logger(LogConst.Increase);
 
                     if (time <= 50)
                     {
@@ -165,7 +166,7 @@ namespace Application.Models
 
         private static void ShowGameOver()
         {
-            new LogWriter(LogConst.FinishLog, MethodBase.GetCurrentMethod().ToString());
+            Utility.Logger(LogConst.FinishLog);
 
             Console.ForegroundColor = ConsoleColor.Red;
 
