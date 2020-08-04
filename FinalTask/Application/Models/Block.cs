@@ -14,42 +14,6 @@ namespace Application.Models.Shapes
 
         internal List<Point> newBlock { get; private set; }
 
-        internal void CreateBlock(int numOfBlock, int numOfChar)
-        {
-            ch = Convert.ToChar(numOfChar);
-
-            switch (numOfBlock)
-            {
-                case (int)TetrominoNames.O:
-                    ChooseFormOfBlock(TetrominoNames.O);
-                    break;
-
-                case (int)TetrominoNames.I:
-                    ChooseFormOfBlock(TetrominoNames.I);
-                    break;
-
-                case (int)TetrominoNames.J:
-                    ChooseFormOfBlock(TetrominoNames.J);
-                    break;
-
-                case (int)TetrominoNames.T:
-                    ChooseFormOfBlock(TetrominoNames.T);
-                    break;
-
-                case (int)TetrominoNames.L:
-                    ChooseFormOfBlock(TetrominoNames.L);
-                    break;
-
-                case (int)TetrominoNames.S:
-                    ChooseFormOfBlock(TetrominoNames.S);
-                    break;
-
-                case (int)TetrominoNames.Z:
-                    ChooseFormOfBlock(TetrominoNames.Z);
-                    break;
-            }
-        }
-
         public void MoveRight()
         {
             for (int i = 0; i < newBlock.Count; i++)
@@ -113,11 +77,13 @@ namespace Application.Models.Shapes
             }
         }
 
-        private void ChooseFormOfBlock(TetrominoNames name)
+        internal void CreateBlock(int numOfBlock, int numOfChar)
         {
-            switch (name)
+            ch = Convert.ToChar(numOfChar);
+
+            switch (numOfBlock)
             {
-                case TetrominoNames.T:
+                case (int)TetrominoNames.T:
                     newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
@@ -127,7 +93,7 @@ namespace Application.Models.Shapes
                     };
                     break;
 
-                case TetrominoNames.J:
+                case (int)TetrominoNames.J:
                     newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
@@ -137,7 +103,7 @@ namespace Application.Models.Shapes
                     };
                     break;
 
-                case TetrominoNames.O:
+                case (int)TetrominoNames.O:
                     newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
@@ -147,7 +113,7 @@ namespace Application.Models.Shapes
                     };
                     break;
 
-                case TetrominoNames.I:
+                case (int)TetrominoNames.I:
                     newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
@@ -157,7 +123,7 @@ namespace Application.Models.Shapes
                     };
                     break;
 
-                case TetrominoNames.L:
+                case (int)TetrominoNames.L:
                     newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
@@ -167,7 +133,7 @@ namespace Application.Models.Shapes
                     };
                     break;
 
-                case TetrominoNames.S:
+                case (int)TetrominoNames.S:
                     newBlock = new List<Point>
                     {
                         new Point(x, y, ch),
@@ -177,7 +143,7 @@ namespace Application.Models.Shapes
                     };
                     break;
 
-                case TetrominoNames.Z:
+                case (int)TetrominoNames.Z:
                     newBlock = new List<Point>
                     {
                         new Point(x, y, ch),

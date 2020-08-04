@@ -8,12 +8,14 @@ namespace Application.Models
 {
     sealed class TetrisGame
     {
-        private Block myBlock, nextBlock = new Block();
+        private Block myBlock = new Block();
+        private Block nextBlock = new Block();
         private List<Point> usedPoints = new List<Point>();
         private bool gameOver;
 
-        private static int numOfBlock, nextNumOfBlock;
-        private static int numOfChar, nextNumOfChar = BlockConst.StartNumChar;
+        private static int numOfBlock, nextNumOfBlock = 0;
+        private static int numOfChar = BlockConst.StartNumChar;
+        private static int nextNumOfChar;
         private static int difficulty;
         private static int countOfPieses;
         private static int time = 300;
