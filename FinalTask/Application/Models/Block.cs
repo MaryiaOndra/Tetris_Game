@@ -13,7 +13,6 @@ namespace Application.Models.Shapes
         private char ch = 'A';
 
         internal List<Point> newBlock { get; private set; }
-        internal static List<Point> oldBlock { get; set; }
 
         internal void CreateBlock(int numOfBlock, int numOfChar)
         {
