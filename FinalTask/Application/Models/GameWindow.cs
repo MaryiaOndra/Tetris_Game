@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Text.Json;
 
 namespace Application.Models
 {
     sealed class GameWindow
     {
         string path = Directory.GetCurrentDirectory() + @"\scores.txt";
+        static int number = 1;
 
         internal void SetWindowParameters()
         {

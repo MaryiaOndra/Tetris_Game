@@ -27,7 +27,9 @@ namespace Application
             }
                         
             gameWindow.AddNameToScore(gameWindow.AskName(), TetrisGame.Score);
+      
             gameWindow.ShowScore();
+
             Console.ReadLine();
         }
     }
