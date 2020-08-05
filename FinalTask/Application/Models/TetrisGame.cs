@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using Application.Logs;
+using System.Reflection;
 
 namespace Application.Models
 {
@@ -24,7 +25,7 @@ namespace Application.Models
 
         public void Start()
         {
-            Utility.Logger(LogConst.StartLog);
+            Utility.Logger(LogConst.StartLog, MethodBase.GetCurrentMethod().ToString());
 
             Score = 0;
             difficulty = 0;
@@ -75,7 +76,7 @@ namespace Application.Models
                     difficulty++;
                     countOfPieses = 0;
 
-                    Utility.Logger(LogConst.Increase);
+                    Utility.Logger(LogConst.Increase, MethodBase.GetCurrentMethod().ToString());
 
                     if (time <= 50)
                     {

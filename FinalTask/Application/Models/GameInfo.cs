@@ -1,9 +1,7 @@
 ﻿using Application.ExtensionMethods;
 using Application.Logs;
-using Application.Models.Shapes;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Reflection;
 
 namespace Application.Models
 {
@@ -11,7 +9,7 @@ namespace Application.Models
     {
         internal static void ShowGameOver()
         {
-            Utility.Logger(LogConst.FinishLog);
+            Utility.Logger(LogConst.FinishLog, MethodBase.GetCurrentMethod().ToString());
 
             Console.ForegroundColor = ConsoleColor.Red;
 
