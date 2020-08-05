@@ -107,6 +107,33 @@ namespace Application.Models
             }
         }
 
+        //internal async void AddPersonDataToJson(string name, int score)
+        //{
+        //    string path = @"C:\Users\Maria\Source\Repos\ITAcademy_console_TETRIS\FinalTask\Application\Utility\Json\PlayerInf.json";
+
+        //    Person player = new Person { Name = name, Score = score, Number = number };
+
+        //    List<Person> allPlayers = new List<Person>();
+
+        //    allPlayers.Add(player);
+
+        //    using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+        //    {
+        //        if ()
+        //        {
+
+        //        }
+
+        //        await JsonSerializer.SerializeAsync<Person>(fs, player);
+        //    }
+        //    using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate))
+        //    {
+                
+        //        Person p = await JsonSerializer.DeserializeAsync<Person>(fs);
+        //    }
+        //}
+
+
         public void ShowScore()
         {
             Console.Clear();
