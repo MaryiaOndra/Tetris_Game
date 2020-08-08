@@ -29,6 +29,7 @@ namespace Application.Models
 
             Score = 0;
             difficulty = 0;
+            time = 300;
 
             PlayField playField = new PlayField();
             KeyAction keyAction = new KeyAction();
@@ -69,11 +70,12 @@ namespace Application.Models
                     }
                 }
 
-                if (countOfPieses > 5)
+                if (countOfPieses >= 5)
                 {
                     time -= 50;
                     Score += 50;
                     difficulty++;
+
                     countOfPieses = 0;
 
                     Utility.Logger(LogConst.Increase, MethodBase.GetCurrentMethod().ToString());

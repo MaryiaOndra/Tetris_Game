@@ -25,10 +25,10 @@ namespace Application
                 game = new TetrisGame();
                 game.Start();
             }
-                        
-            gameWindow.AddNameToScore(gameWindow.AskName(), TetrisGame.Score);
-      
-            gameWindow.ShowScore();
+
+            ScoreTable scores = new ScoreTable();
+            scores.AddPersonDataToJson(gameWindow.AskName(), TetrisGame.Score);
+            scores.ShowScore();
 
             Console.ReadLine();
         }

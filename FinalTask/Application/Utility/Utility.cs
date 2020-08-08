@@ -36,6 +36,13 @@ namespace Application.Logs
                 StreamWriter file = new System.IO.StreamWriter(path + fileName, true);
                 file.WriteLine(lines);
                 file.Close();
+
+                byte[] fileBytes = File.ReadAllBytes(path + fileName);
+
+                if (fileBytes.Length >= 30_000)
+                {
+                    count++;
+                }
             }
             catch (Exception) { }
         }

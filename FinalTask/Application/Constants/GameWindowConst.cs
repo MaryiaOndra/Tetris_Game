@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Application
 {
-    public static class ScoreTable 
+    public static class ScoreTableConst 
     {
         public const string Name = "Name of player:";
         public const string Score = "Score:";
