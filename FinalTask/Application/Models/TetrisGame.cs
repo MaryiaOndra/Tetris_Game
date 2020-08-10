@@ -13,6 +13,7 @@ namespace Application.Models
         private Block nextBlock = new Block();
         private List<Point> usedPoints = new List<Point>();
         private bool gameOver;
+        private int row;
 
         private static int numOfBlock, nextNumOfBlock = 0;
         private static int numOfChar = BlockConst.StartNumChar;
@@ -60,7 +61,7 @@ namespace Application.Models
                     {
                         keyAction.HandlePressingKey(Console.ReadKey(true).Key, myBlock, playField, usedPoints, time);
                     }
-                    else if(gameOver)
+                    else if (gameOver)
                     {
                         break;
                     }
@@ -70,16 +71,12 @@ namespace Application.Models
                     }
                 }
 
-                if (countOfPieses >= 5)
+                if (countOfPieses >= 10)
                 {
                     time -= 50;
-                    Score += 50;
                     difficulty++;
-
-                    countOfPieses = 0;
-
-                    Utility.Logger(LogConst.Increase, MethodBase.GetCurrentMethod().ToString());
-
+                    countOfPieses = 0;  
+                    
                     if (time <= 50)
                     {
                         time = 50;
@@ -92,9 +89,19 @@ namespace Application.Models
                     usedPoints.Add(myBlock.newBlock[i]);
                 }
 
+                while(Validation.IsFullLines(usedPoints, out row))
+                {
+                    DeleteFullLine(usedPoints);
+                    DrawChangedField(usedPoints);
+
+                    Score += 50;
+
+                    Utility.Logger(LogConst.Increase, MethodBase.GetCurrentMethod().ToString());
+                }
+
                 countOfPieses++;
                 numOfBlock = nextNumOfBlock;
-                numOfChar = nextNumOfChar;                
+                numOfChar = nextNumOfChar;
             }
 
             GameInfo.ShowGameOver();
@@ -115,6 +122,47 @@ namespace Application.Models
             nextBlock.RelocateBlock();
             oldBlock.Clear();
             nextBlock.Draw();
+        }
+
+        internal void DeleteFullLine(List<Point> points)
+        {
+
+
+            Console.SetCursorPosition(PlayFieldConst.BorderXPos + 1, row);
+            Console.WriteLine(new string('$', PlayFieldConst.FieldWidth - 1));
+            Thread.Sleep(300);
+
+            foreach (var item in points)
+            {
+                item.Clear();
+            }
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                if (points[i].Y.Equals(row))
+                {
+                    points.Remove(points[i]);
+                    i = -1;
+                }
+            }
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                if (points[i].Y < row)
+                {
+                    points[i].MoveDown();
+                }
+            }
+
+            usedPoints = points;
+        }
+
+        internal void DrawChangedField(List<Point> points)
+        {
+            foreach (var point in points)
+            {
+                point.Draw();
+            }
         }
     }
 }

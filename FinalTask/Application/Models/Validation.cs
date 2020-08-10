@@ -78,34 +78,56 @@ namespace Application.Models
             return answer;
         }
 
-        internal static bool IsFullLines(List<Point> usedPoints)
+        internal static bool IsFullLines(List<Point> usedPoints, out int row)
         {
             bool answer = false;
             int y = PlayFieldConst.FieldHeight;
-            int maxCount = PlayFieldConst.FieldWidth;
+            int maxCount = PlayFieldConst.FieldWidth - 1;
             int count = 0;
-            int row = 0;
+            row = 0;
 
-            for (int i = y; i > 0; i--)
+            for (int i = y; i >= 0; i--) 
             {
-                for (int j = 0; j < usedPoints.Count; j++)
+                foreach (Point p in usedPoints)
                 {
-                    if (usedPoints[j].Y.Equals(i))
+                    if (p.Y.Equals(i))
                     {
                         count++;
-                    }
-                    if (count.Equals(maxCount))
-                    {
                         row = i;
-                        count = 0;
                     }
                 }
+
+                if (count.Equals(maxCount))
+                {
+                    answer = true;
+                    break;
+                }
+                else
+                    count = 0;
             }
 
-            if (count.Equals(maxCount))
-            {
-                answer = true;
-            }
+
+            //foreach (var item in usedPoints)
+            //{
+            //    for (int i = row; i >= 0; i--)
+            //    {
+            //        if (i.Equals(item.Y))
+            //        {
+            //            count++;
+            //            row = i;
+            //            break;
+            //        }
+            //        else
+            //            continue;
+            //    }
+
+            //    if (count >= maxCount)
+            //    {
+            //        answer = true;
+            //        break;
+            //    }
+            //}     
+            
             return answer;
         }
     }

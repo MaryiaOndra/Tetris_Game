@@ -21,6 +21,11 @@ namespace Application.Models
             Char = ch;
         }
 
+        public void ChangeChar(char ch) 
+        {
+            Char = ch;
+        }
+
         public void Clear()
         {
             Console.SetCursorPosition(X, Y);
