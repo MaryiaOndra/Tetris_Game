@@ -14,6 +14,7 @@ namespace Application.Models
         private List<Point> usedPoints = new List<Point>();
         private bool gameOver;
         private int row;
+        private KeyAction keyAction = new KeyAction();
 
         private static int numOfBlock, nextNumOfBlock = 0;
         private static int numOfChar = BlockConst.StartNumChar;
@@ -32,17 +33,14 @@ namespace Application.Models
             difficulty = 0;
             time = 300;
 
-            PlayField playField = new PlayField();
-            KeyAction keyAction = new KeyAction();
-
             GameInfo.ShowHelpInf();
             Thread.Sleep(500);
+
+            PlayField playField = new PlayField();
 
             while (!gameOver)
             {
                 GameInfo.ShowGameInf(Score, difficulty);
-
-                playField.CreateListOfFieldPoints();
 
                 ShowNextFigure();
 
@@ -59,7 +57,7 @@ namespace Application.Models
                 while (!Validation.IsHitBottomOrBlock(myBlock, usedPoints, playField))
                 {
                     if (Console.KeyAvailable)
-                    {
+                    {                      
                         keyAction.HandlePressingKey(Console.ReadKey(true).Key,
                             myBlock, playField, usedPoints, time);
                     }

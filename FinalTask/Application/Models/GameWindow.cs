@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Text.Json;
+using System.Net.Mail;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models
 {
@@ -14,42 +16,90 @@ namespace Application.Models
 
         internal void SetWindowParameters()
         {
-            Console.SetWindowSize(GameWindowConst.WindowWidth, GameWindowConst.WindowHeight);
-            Console.SetBufferSize(GameWindowConst.WindowWidth, GameWindowConst.WindowHeight);
+            Console.SetWindowSize(GameConst.WindowWidth, GameConst.WindowHeight);
+            Console.SetBufferSize(GameConst.WindowWidth, GameConst.WindowHeight);
             Console.CursorVisible = false;
         }
 
         internal void ShowTitle()
         {
             int greetX = 0;
-            int greetY = GameWindowConst.WindowHeight / 5;
-            int enterX = GameWindowConst.LeftCursorPos - GameWindowConst.PressEnter.Length / 2;
-            int enterY = GameWindowConst.TopCursorPos + 2;
+            int greetY = GameConst.WindowHeight / 5;
+            int enterX = GameConst.LeftCursorPos - GameConst.PressEnter.Length / 2;
+            int enterY = GameConst.TopCursorPos + 2;
 
-            GameWindowConst.Greeting.WriteStrInSpecialPlace(greetX, greetY);
-            GameWindowConst.PressEnter.WriteStrInSpecialPlace(enterX, enterY);
+            GameConst.Greeting.WriteStrInSpecialPlace(greetX, greetY);
+            GameConst.PressEnter.WriteStrInSpecialPlace(enterX, enterY);
 
             while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
 
             Console.Clear();
         }
 
-        internal string AskName()
+        internal string QueryForEmail()
         {
-            string name;
-            int thanksX = GameWindowConst.LeftCursorPos - GameWindowConst.Thanks.Length / 2;
-            int thanksY = GameWindowConst.TopCursorPos;
-            int enterX = GameWindowConst.LeftCursorPos - GameWindowConst.EnterName.Length / 2;
-            int enterY = GameWindowConst.TopCursorPos + 2;
+            string email;
+            string request = GameConst.EnterEmail;
+            int posX = GameConst.LeftCursorPos - request.Length / 2;
+            int posY = GameConst.TopCursorPos;
 
             Console.Clear();
 
-            GameWindowConst.Thanks.WriteStrInSpecialPlace(thanksX, thanksY);
-            GameWindowConst.EnterName.WriteStrInSpecialPlace(enterX, enterY);
+            request.WriteStrInSpecialPlace(posX, posY);
 
             Console.CursorVisible = true;
 
-            name = CheckNameLenght(enterX, enterY);
+            email = CheckEmail(posX, posY);
+
+            Console.CursorVisible = false;
+
+            return email;
+        }
+
+        private string CheckEmail(int posX, int posY)
+        {
+            string email;
+            string warning = GameConst.InvalidEmail;
+
+            while (true)
+            {
+                Console.SetCursorPosition(posX, posY + 2);
+
+                email = Console.ReadLine();
+
+                if (new EmailAddressAttribute().IsValid(email))
+                {
+                    warning.CleanStrInSpecialPlace(posX, posY + 4);
+                    break;
+                }
+                else
+                {
+                    warning.WriteStrInSpecialPlace(posX, posY + 4);
+                    email.CleanStrInSpecialPlace(posX, posY + 2);
+                }
+            }
+
+            return email;
+        }
+
+        internal string QueryForName()
+        {
+            string name;
+            string title = GameConst.Thanks;
+            string request = GameConst.EnterName;
+            int titleX = GameConst.LeftCursorPos - title.Length / 2;
+            int titleY = GameConst.TopCursorPos;
+            int questX = GameConst.LeftCursorPos - request.Length / 2;
+            int questY = GameConst.TopCursorPos + 2;
+
+            Console.Clear();
+
+            title.WriteStrInSpecialPlace(titleX, titleY);
+            request.WriteStrInSpecialPlace(questX, questY);
+
+            Console.CursorVisible = true;
+
+            name = CheckNameLenght(questX, questY);
 
             Console.CursorVisible = false;
 
@@ -58,9 +108,10 @@ namespace Application.Models
 
         private static string CheckNameLenght(int enterX, int enterY)
         {
-            int shortX = GameWindowConst.LeftCursorPos - (GameWindowConst.ChooseShortName.Length / 2);
-            int shortY = GameWindowConst.TopCursorPos + 6;
+            int shortX = GameConst.LeftCursorPos - (GameConst.TooLongName.Length / 2);
+            int shortY = GameConst.TopCursorPos + 6;
             int maxLenghtName = 15;
+            string warning = GameConst.TooLongName;
             string name;
 
             while (true)
@@ -71,12 +122,12 @@ namespace Application.Models
 
                 if (!(name.Length > maxLenghtName))
                 {
-                    GameWindowConst.ChooseShortName.CleanStrInSpecialPlace(shortX, shortY);
+                    warning.CleanStrInSpecialPlace(shortX, shortY);
                     break;
                 }
                 else
                 {
-                    GameWindowConst.ChooseShortName.WriteStrInSpecialPlace(shortX, shortY);
+                    warning.WriteStrInSpecialPlace(shortX, shortY);
                     name.CleanStrInSpecialPlace(enterX, enterY + 2);
                 }
             }
@@ -86,9 +137,25 @@ namespace Application.Models
 
         internal static bool QueryYN(string question)
         {
-
-            int posX = GameWindowConst.WindowWidth / 2 - question.Length / 2;
+            int posX = GameConst.WindowWidth / 2 - question.Length / 2;
             int posY = PlayFieldConst.FieldHeight / 2 + 2;
+            bool answer;
+
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            question.WriteStrInSpecialPlace(posX, posY);
+
+            answer = PressYN();
+
+            question.CleanStrInSpecialPlace(posX, posY);
+
+            Console.ResetColor();
+
+            return answer;
+        }
+
+        internal static bool QueryYN(string question, int posX, int posY)
+        {
             bool answer;
 
             Console.ForegroundColor = ConsoleColor.Red;
@@ -128,6 +195,14 @@ namespace Application.Models
             } while (true);
 
             return answer;
+        }
+
+        internal void SayGoodbye()
+        {
+            int posX = GameConst.WindowWidth / 2 - GameConst.Bye.Length / 2;
+            int posY = PlayFieldConst.FieldHeight / 2 + 2;
+
+            GameConst.Bye.WriteStrInSpecialPlace(posX, posY);
         }
     }
 }

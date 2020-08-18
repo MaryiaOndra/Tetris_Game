@@ -1,15 +1,13 @@
 ﻿using Application.ExtensionMethods;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Text.Json;
+using System.Net.Mail;
 
 namespace Application.Models
 {
     class ScoreTable
     {
+        static int place = 1;
         string path = @"C:\Users\Maria\Source\Repos\ITAcademy_console_TETRIS2\FinalTask\Application\Utility\Scores\scores.txt";
 
         internal void AddNameToScore(string name, int score)
@@ -28,7 +26,7 @@ namespace Application.Models
             if (lines.Length.Equals(0))
             {
                 TextWriter text = new StreamWriter(path, true);
-                text.WriteLine($"\n\t\t{name}" + $"{interval}" + $"{score}");
+                text.WriteLine($"\n\t{place}\t\t{name}" + $"{interval}" + $"{score}");
 
                 text.Close();
             }
@@ -39,7 +37,8 @@ namespace Application.Models
                     if (i.Equals(lines.Length - 1))
                     {
                         TextWriter text = new StreamWriter(path, true);
-                        text.WriteLine($"\n\t\t{name}" + $"{interval}" + $"{score}");
+                        place = i + 2;
+                        text.WriteLine($"\n\t{place}\t\t{name}" + $"{interval}" + $"{score}");
                         text.Close();
                     }
                 }
@@ -60,6 +59,37 @@ namespace Application.Models
             {
                 Console.WriteLine(line);
             }
+        }
+
+        internal void SendScoreToMail(string email)
+        {
+            Console.Clear();
+
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                mail.From = new MailAddress("ya.ondra@yandex.by");
+                mail.To.Add(email);
+                mail.Subject = "TETRIS scores";
+                mail.Body = "mail with attachment";
+
+                Attachment attachment;
+                attachment = new Attachment(path);
+                mail.Attachments.Add(attachment);
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("username", "password");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+            }
+            catch (Exception)
+            {
+                int posX = GameConst.WindowWidth / 2 - (ExceptConst.SendMail.Length / 2);
+                int posY = GameConst.WindowHeight / 2;
+                ExceptConst.SendMail.WriteStrInSpecialPlace(posX, posY);
+            }     
         }
     }
 }

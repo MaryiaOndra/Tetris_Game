@@ -1,4 +1,5 @@
-﻿using Application.ExtensionMethods;
+﻿using Application.Enums;
+using Application.ExtensionMethods;
 using Application.Models.Shapes;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,9 @@ namespace Application.Models
         public void HandlePressingKey(ConsoleKey consoleKey, Block myBlock, PlayField playField, List<Point> usedPoints, int time)
         {
             int sleepTime = 100;
-            int pauseX = GameWindowConst.LeftCursorPos - TetrisGameConst.Pause.Length / 2;
-            int pauseY = TetrisGameConst.posYPause;
+            int pauseX = GameConst.LeftCursorPos - GameConst.Pause.Length / 2;
+            int downY = GameConst.WindowHeight - 2;
+            int exitX = GameConst.LeftCursorPos - GameConst.WantExitGame.Length / 2;
 
             switch (consoleKey)
             {
@@ -43,18 +45,19 @@ namespace Application.Models
                     break;
 
                 case ConsoleKey.P:
-                    TetrisGameConst.Pause.WriteStrInSpecialPlace(pauseX, pauseY);
+                    GameConst.Pause.WriteStrInSpecialPlace(pauseX, downY);
 
                     while (Console.ReadKey(true).Key != ConsoleKey.P) { };
 
-                    TetrisGameConst.Pause.CleanStrInSpecialPlace(pauseX, pauseY);
+                    GameConst.Pause.CleanStrInSpecialPlace(pauseX, downY);
 
                     break;
 
                 case ConsoleKey.Escape:
-                    while (GameWindow.QueryYN(GameWindowConst.WantExitGame)) 
+                    while (GameWindow.QueryYN(GameConst.WantExitGame,
+                        exitX, downY))
                     {
-                       Environment.Exit(1);
+                        Environment.Exit(1);
                     }
                     break;
 

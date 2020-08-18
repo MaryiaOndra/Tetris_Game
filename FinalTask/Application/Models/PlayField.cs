@@ -64,23 +64,5 @@
             posX = PlayFieldConst.BorderXPos;
             posY = PlayFieldConst.BorderYPos;
         }
-
-        internal void CreateListOfFieldPoints()
-        {
-            Point[][] points = new Point[PlayFieldConst.FieldHeight][];
-            Point startP = new Point(posX + 1, posY, ' ');
-
-            for (int i = 0; i < points.Length; i++)
-            {
-                points[i] = new Point[PlayFieldConst.FieldWidth];
-
-                for (int j = 0; j < points[i].Length; j++)
-                {
-                    points[i][j] = new Point(startP.X + j, startP.Y + i, ' ');
-                }
-            }
-
-            Points = points;
-        }
     }
 }

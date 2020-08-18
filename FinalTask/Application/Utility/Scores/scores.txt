@@ -1,4 +1,2 @@
 
-		H                        50
-
-		llll                     50
+	1		llllllll                 0

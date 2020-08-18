@@ -14,7 +14,7 @@ namespace Application.Models
             Console.ForegroundColor = ConsoleColor.Red;
 
             string text = "GAME OVER";
-            int posLeft = GameWindowConst.WindowWidth / 2 - text.Length / 2;
+            int posLeft = GameConst.WindowWidth / 2 - text.Length / 2;
             int posTop = PlayFieldConst.FieldHeight / 2;
 
             Console.SetCursorPosition(posLeft, posTop);
@@ -24,7 +24,7 @@ namespace Application.Models
 
         internal static void ShowGameInf(int score, int difficulty)
         {
-            int posLeft = (GameWindowConst.WindowWidth / 2 + GameWindowConst.WindowWidth) / 2;
+            int posLeft = (GameConst.WindowWidth / 2 + GameConst.WindowWidth) / 2;
             int posTop = PlayFieldConst.FieldHeight / 4;
 
             "Next piece: ".WriteStrInSpecialPlace(posLeft, posTop);
@@ -40,19 +40,13 @@ namespace Application.Models
 
             Console.SetCursorPosition(0, posTop);
 
-            Console.WriteLine("\tHOT KEY");
-
-            Console.WriteLine("\n\tTurn Right: \n\tRIGHT ARROW");
-
-            Console.WriteLine("\n\tTurn Left: \n\tLEFT ARROW");
-
-            Console.WriteLine("\n\tRotate: \n\tUP ARROW");
-
-            Console.WriteLine("\n\tDrop Down: \n\tDOWN ARROW");
-
-            Console.WriteLine("\n\tPause: \n\tP");
-
-            //Console.WriteLine("\n\tCancel the game: \n\tESC");
+            Console.WriteLine("\tHOTKEYS" +
+                "\n\n\tTurn Right: \n\tRIGHT ARROW" +
+                "\n\n\tTurn Left: \n\tLEFT ARROW" +
+                "\n\n\tRotate: \n\tUP ARROW" +
+                "\n\n\tDrop Down: \n\tDOWN ARROW" +
+                "\n\n\tPause: \n\tP" +
+                "\n\n\tCancel the game: \n\tESC");
         }
     }
 }

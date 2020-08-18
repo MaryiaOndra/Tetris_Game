@@ -15,11 +15,6 @@ namespace Application
         public const string FinishLog = "Finish game";
         public const string Increase = "Increase difficulty and speed";
     }
-    public static class TetrisGameConst 
-    {
-        public const int posYPause = 23;
-        public const string Pause = "# Pause is active, to diactivate press 'P' #";
-    }
 
     public static class BlockConst 
     {
@@ -34,7 +29,7 @@ namespace Application
         public const char EmptySpace = ' ';
     }
 
-    public static class GameWindowConst
+    public static class GameConst
     {
         public const string Greeting = @"
         .___________. _______ .___________..______       __       _______.
@@ -49,8 +44,12 @@ namespace Application
         public const string EnterName = "Please enter your name: ";
         public const string WantTryAgain = "Do you want to try one more time? Y/N";
         public const string WantExitGame = "Are you sure you want to quit the game? Y/N";
+        public const string EnterEmail = "Please enter your e-mail address: ";
+        public const string InvalidEmail = "This e-mail is iivalid, please try again";
         public const string WantSendMail = "Do you want to receive e-mail whith scores? Y/N";
-        public const string ChooseShortName = "Please choose name shorter";
+        public const string TooLongName = "Please choose name shorter";
+        public const string Pause = "# Pause is active, to diactivate press 'P' #";
+        public const string Bye = "Goodbye and may the force be with you!";
 
         public const int LeftCursorPos = WindowWidth / 2;
         public const int TopCursorPos = WindowHeight / 2;
@@ -61,9 +60,14 @@ namespace Application
     public static class PlayFieldConst
     {
         public const char SymBorder = '#';
-        public const int BorderXPos = (GameWindowConst.WindowWidth - FieldWidth) / 2;
+        public const int BorderXPos = (GameConst.WindowWidth - FieldWidth) / 2;
         public const int BorderYPos = 1;
         public const int FieldWidth = 18;
         public const int FieldHeight = 20;
-    }    
+    }
+
+    public static class ExceptConst
+    {
+        public const string SendMail = "Unfortunately, we cannot send a letter to you by mail, goodbye!";
+    }
 }
