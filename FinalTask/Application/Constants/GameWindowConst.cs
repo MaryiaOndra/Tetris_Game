@@ -36,8 +36,7 @@ namespace Application
 
     public static class GameWindowConst
     {
-        public const string Greeting = "*****TETRIS GAME*****";
-        public const string Greeting2 = @"
+        public const string Greeting = @"
         .___________. _______ .___________..______       __       _______.
         |           ||   ____||           ||   _  \     |  |     /       |
         `---|  |----`|  |__   `---|  |----`|  |_)  |    |  |    |   (----`
@@ -49,6 +48,8 @@ namespace Application
         public const string Thanks = "Thank you for playing!";
         public const string EnterName = "Please enter your name: ";
         public const string WantTryAgain = "Do you want to try one more time? Y/N";
+        public const string WantExitGame = "Are you sure you want to quit the game? Y/N";
+        public const string WantSendMail = "Do you want to receive e-mail whith scores? Y/N";
         public const string ChooseShortName = "Please choose name shorter";
 
         public const int LeftCursorPos = WindowWidth / 2;

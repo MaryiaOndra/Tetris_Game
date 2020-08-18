@@ -12,30 +12,28 @@ namespace Application.Models
         public void HandlePressingKey(ConsoleKey consoleKey, Block myBlock, PlayField playField, List<Point> usedPoints, int time)
         {
             int sleepTime = 100;
+            int pauseX = GameWindowConst.LeftCursorPos - TetrisGameConst.Pause.Length / 2;
+            int pauseY = TetrisGameConst.posYPause;
 
             switch (consoleKey)
             {
                 case ConsoleKey.UpArrow:
-
                     if (!Validation.IsHitLeftSide(myBlock, playField)
                         && !Validation.IsHitRightSide(myBlock, playField))
                         myBlock.RotateBlock();
                     break;
 
                 case ConsoleKey.LeftArrow:
-
                     if (!Validation.IsHitLeftSide(myBlock, playField))
                         myBlock.MoveLeft();
                     break;
 
                 case ConsoleKey.RightArrow:
-
                     if (!Validation.IsHitRightSide(myBlock, playField))
                         myBlock.MoveRight();
                     break;
 
                 case ConsoleKey.DownArrow:
-
                     while (!Validation.IsHitBottomOrBlock(myBlock, usedPoints, playField))
                     {
                         Thread.Sleep(20);
@@ -45,22 +43,20 @@ namespace Application.Models
                     break;
 
                 case ConsoleKey.P:
-                    TetrisGameConst.Pause.WriteStrInSpecialPlace(
-                        GameWindowConst.LeftCursorPos
-                        - TetrisGameConst.Pause.Length / 2, TetrisGameConst.posYPause);
+                    TetrisGameConst.Pause.WriteStrInSpecialPlace(pauseX, pauseY);
 
                     while (Console.ReadKey(true).Key != ConsoleKey.P) { };
 
-                    TetrisGameConst.Pause.CleanStrInSpecialPlace(
-                        GameWindowConst.LeftCursorPos
-                        - TetrisGameConst.Pause.Length / 2, TetrisGameConst.posYPause);
+                    TetrisGameConst.Pause.CleanStrInSpecialPlace(pauseX, pauseY);
 
-                    myBlock.MoveDown();
                     break;
 
-                //case ConsoleKey.Escape:
-                //    gameOver = true;
-                //    break;
+                case ConsoleKey.Escape:
+                    while (GameWindow.QueryYN(GameWindowConst.WantExitGame)) 
+                    {
+                       Environment.Exit(1);
+                    }
+                    break;
 
                 default:
                     Thread.Sleep(time);

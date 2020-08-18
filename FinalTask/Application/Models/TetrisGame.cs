@@ -34,13 +34,14 @@ namespace Application.Models
             PlayField playField = new PlayField();
             KeyAction keyAction = new KeyAction();
 
-            playField.CreateListOfFieldPoints();
             GameInfo.ShowHelpInf();
             Thread.Sleep(500);
 
             while (!gameOver)
             {
                 GameInfo.ShowGameInf(Score, difficulty);
+
+                playField.CreateListOfFieldPoints();
 
                 ShowNextFigure();
 
@@ -58,15 +59,13 @@ namespace Application.Models
                 {
                     if (Console.KeyAvailable)
                     {
-                        keyAction.HandlePressingKey(Console.ReadKey(true).Key, myBlock, playField, usedPoints, time);
-                    }
-                    else if(gameOver)
-                    {
-                        break;
+                        keyAction.HandlePressingKey(Console.ReadKey(true).Key,
+                            myBlock, playField, usedPoints, time);
                     }
                     else
                     {
-                        keyAction.HandlePressingKey(default, myBlock, playField, usedPoints, time);
+                        keyAction.HandlePressingKey(default, 
+                            myBlock, playField, usedPoints, time);
                     }
                 }
 
