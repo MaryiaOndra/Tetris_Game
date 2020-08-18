@@ -19,7 +19,7 @@ namespace Application
 
             game.Start();
 
-            while(gameWindow.TryAgain())
+            while(GameWindow.QueryYN(GameWindowConst.WantTryAgain))
             {
                 Console.Clear();
                 game = new TetrisGame();
@@ -27,10 +27,10 @@ namespace Application
             }
 
             ScoreTable scores = new ScoreTable();
-            scores.AddPersonDataToJson(gameWindow.AskName(), TetrisGame.Score);
+            scores.AddNameToScore(gameWindow.AskName(), TetrisGame.Score);
             scores.ShowScore();
 
-            Console.ReadLine();
+            Environment.Exit(1);
         }
     }
 }

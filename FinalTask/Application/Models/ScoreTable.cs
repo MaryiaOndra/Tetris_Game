@@ -10,7 +10,7 @@ namespace Application.Models
 {
     class ScoreTable
     {
-        string path = @"C:\Users\Maria\Source\Repos\ITAcademy_console_TETRIS\FinalTask\Application\Utility\Scores\scores.txt";
+        string path = @"C:\Users\Maria\Source\Repos\ITAcademy_console_TETRIS2\FinalTask\Application\Utility\Scores\scores.txt";
 
         internal void AddNameToScore(string name, int score)
         {
@@ -45,42 +45,6 @@ namespace Application.Models
                 }
             }
         }
-
-        internal  void AddPersonDataToJson(string name, int score)
-        {
-            string pathJSON = @"G:\JSON\scores.json";
-            
-            int number = 0;
-            string newJson = string.Empty;
-
-            Person player = new Person { Name = name, Score = score, Number = number };
-
-            List<Person> allPlayers = new List<Person>();
-
-
-            if (File.Exists(pathJSON))
-            {
-                using (StreamReader r = new StreamReader(pathJSON))
-                {
-                    string json = r.ReadToEnd();
-                    allPlayers = JsonConvert.DeserializeObject<List<Person>>(json);
-                    File.Delete(pathJSON);
-                    allPlayers.Add(player);
-                    newJson = JsonConvert.SerializeObject(allPlayers);
-                }
-            }
-            else if (!File.Exists(pathJSON))
-            {
-                using (StreamReader r = new StreamReader(pathJSON))
-                {
-                    allPlayers.Add(player);
-                    newJson = JsonConvert.SerializeObject(allPlayers);
-                }
-            }
-
-            File.WriteAllText(pathJSON, newJson);
-        }
-
 
         public void ShowScore()
         {
