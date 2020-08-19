@@ -1,6 +1,2 @@
 
-	1		Ka                       50
-
-	3		lllll                    0
-
-	5		Kale                     0
+	1		klk                      0

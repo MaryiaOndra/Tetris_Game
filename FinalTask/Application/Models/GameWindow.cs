@@ -1,35 +1,27 @@
 ﻿using Application.ExtensionMethods;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Text.Json;
-using System.Net.Mail;
 using System.ComponentModel.DataAnnotations;
 
 namespace Application.Models
 {
     sealed class GameWindow
     {
-        string path = Directory.GetCurrentDirectory() + @"\scores.txt";
-        static int number = 1;
-
         internal void SetWindowParameters()
         {
-            Console.SetWindowSize(GameConst.WindowWidth, GameConst.WindowHeight);
-            Console.SetBufferSize(GameConst.WindowWidth, GameConst.WindowHeight);
+            Console.SetWindowSize(WindowConst.WindowWidth, WindowConst.WindowHeight);
+            Console.SetBufferSize(WindowConst.WindowWidth, WindowConst.WindowHeight);
             Console.CursorVisible = false;
         }
 
         internal void ShowTitle()
         {
             int greetX = 0;
-            int greetY = GameConst.WindowHeight / 5;
-            int enterX = GameConst.LeftCursorPos - GameConst.PressEnter.Length / 2;
-            int enterY = GameConst.TopCursorPos + 2;
+            int greetY = WindowConst.WindowHeight / 5;
+            int enterX = WindowConst.LeftCursorPos - FrasesConst.PressEnter.Length / 2;
+            int enterY = WindowConst.TopCursorPos + 2;
 
-            GameConst.Greeting.WriteStrInSpecialPlace(greetX, greetY);
-            GameConst.PressEnter.WriteStrInSpecialPlace(enterX, enterY);
+            FrasesConst.Greeting.WriteStrInSpecialPlace(greetX, greetY);
+            FrasesConst.PressEnter.WriteStrInSpecialPlace(enterX, enterY);
 
             while (Console.ReadKey(true).Key != ConsoleKey.Enter) { }
 
@@ -39,9 +31,9 @@ namespace Application.Models
         internal string QueryForEmail()
         {
             string email;
-            string request = GameConst.EnterEmail;
-            int posX = GameConst.LeftCursorPos - request.Length / 2;
-            int posY = GameConst.TopCursorPos;
+            string request = FrasesConst.EnterEmail;
+            int posX = WindowConst.LeftCursorPos - request.Length / 2;
+            int posY = WindowConst.TopCursorPos;
 
             Console.Clear();
 
@@ -55,25 +47,24 @@ namespace Application.Models
         private string CheckEmail(int posX, int posY)
         {
             string email;
-            string warning = GameConst.InvalidEmail;
+            string warning = FrasesConst.InvalidEmail;
 
             while (true)
             {
                 Console.SetCursorPosition(posX, posY + 2);
 
-                Console.CursorVisible = true;
 
                 email = Console.ReadLine();
 
-                if (new EmailAddressAttribute().IsValid(email))
-                {
-                    warning.CleanStrInSpecialPlace(posX, posY + 4);
-                    break;
-                }
-                else
+                if (!new EmailAddressAttribute().IsValid(email))
                 {
                     warning.WriteStrInSpecialPlace(posX, posY + 4);
                     email.CleanStrInSpecialPlace(posX, posY + 2);
+                }
+                else
+                {
+                    warning.CleanStrInSpecialPlace(posX, posY + 4);
+                    break;
                 }
 
                 Console.CursorVisible = false;
@@ -85,12 +76,12 @@ namespace Application.Models
         internal string QueryForName()
         {
             string name;
-            string title = GameConst.Thanks;
-            string request = GameConst.EnterName;
-            int titleX = GameConst.LeftCursorPos - title.Length / 2;
-            int titleY = GameConst.TopCursorPos;
-            int questX = GameConst.LeftCursorPos - request.Length / 2;
-            int questY = GameConst.TopCursorPos + 2;
+            string title = FrasesConst.Thanks;
+            string request = FrasesConst.EnterName;
+            int titleX = WindowConst.LeftCursorPos - title.Length / 2;
+            int titleY = WindowConst.TopCursorPos;
+            int questX = WindowConst.LeftCursorPos - request.Length / 2;
+            int questY = WindowConst.TopCursorPos + 2;
 
             Console.Clear();
 
@@ -99,24 +90,23 @@ namespace Application.Models
 
             Console.CursorVisible = true;
 
-            name = CheckNameLenght(questX, questY);
-
-            Console.CursorVisible = false;
+            name = CheckNameLenght(questX, questY);          
 
             return name;
         }
 
         private static string CheckNameLenght(int enterX, int enterY)
         {
-            int shortX = GameConst.LeftCursorPos - (GameConst.TooLongName.Length / 2);
-            int shortY = GameConst.TopCursorPos + 6;
+            int shortX = WindowConst.LeftCursorPos - (FrasesConst.TooLongName.Length / 2);
+            int shortY = WindowConst.TopCursorPos + 6;
             int maxLenghtName = 15;
-            string warning = GameConst.TooLongName;
+            string warning = FrasesConst.TooLongName;
             string name;
 
             while (true)
             {
                 Console.SetCursorPosition(enterX, enterY + 2);
+                Console.CursorVisible = true;
 
                 name = Console.ReadLine().ToString();
 
@@ -130,6 +120,8 @@ namespace Application.Models
                     warning.WriteStrInSpecialPlace(shortX, shortY);
                     name.CleanStrInSpecialPlace(enterX, enterY + 2);
                 }
+
+                Console.CursorVisible = false;
             }
 
             return name;
@@ -137,7 +129,7 @@ namespace Application.Models
 
         internal static bool QueryYN(string question)
         {
-            int posX = GameConst.WindowWidth / 2 - question.Length / 2;
+            int posX = WindowConst.WindowWidth / 2 - question.Length / 2;
             int posY = PlayFieldConst.FieldHeight / 2 + 2;
             bool answer;
 
@@ -199,11 +191,12 @@ namespace Application.Models
 
         internal void SayGoodbye()
         {
-            int posX = GameConst.WindowWidth / 2 - GameConst.Bye.Length / 2;
+            int posX = WindowConst.WindowWidth / 2 - FrasesConst.Bye.Length / 2;
             int posY = PlayFieldConst.FieldHeight / 2 + 2;
 
             Console.Clear();
-            GameConst.Bye.WriteStrInSpecialPlace(posX, posY);
+
+            FrasesConst.Bye.WriteStrInSpecialPlace(posX, posY);
         }
     }
 }

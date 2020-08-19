@@ -10,7 +10,6 @@ namespace Application.Models
     sealed class TetrisGame
     {
         private Block myBlock = new Block();
-        private Block nextBlock = new Block();
         private List<Point> usedPoints = new List<Point>();
         private bool gameOver;
         private int row;
@@ -42,7 +41,7 @@ namespace Application.Models
             {
                 GameInfo.ShowGameInf(Score, difficulty);
 
-                ShowNextFigure();
+                GameInfo.ShowNextFigure(numOfBlock, numOfChar, out nextNumOfBlock, out nextNumOfChar);
 
                 myBlock.CreateBlock(numOfBlock, numOfChar);
 
@@ -89,7 +88,7 @@ namespace Application.Models
                 while(Validation.IsFullLines(usedPoints, out row))
                 {
                     DeleteFullLine(usedPoints);
-                    DrawChangedField(usedPoints);
+                    playField.DrawChangedField(usedPoints);
 
                     Score += 50;
 
@@ -105,26 +104,8 @@ namespace Application.Models
             Thread.Sleep(500);
         }
 
-        private void ShowNextFigure()
-        {
-            Block oldBlock = new Block();
-            oldBlock.CreateBlock(numOfBlock, numOfChar);
-            oldBlock.RelocateBlock();
-
-            Random random = new Random();
-            nextNumOfBlock = random.Next(6);
-            nextNumOfChar = random.Next(BlockConst.RangeChar) + BlockConst.StartNumChar;
-
-            nextBlock.CreateBlock(nextNumOfBlock, nextNumOfChar);
-            nextBlock.RelocateBlock();
-            oldBlock.Clear();
-            nextBlock.Draw();
-        }
-
         internal void DeleteFullLine(List<Point> points)
         {
-
-
             Console.SetCursorPosition(PlayFieldConst.BorderXPos + 1, row);
             Console.WriteLine(new string('$', PlayFieldConst.FieldWidth - 1));
             Thread.Sleep(300);
@@ -152,14 +133,6 @@ namespace Application.Models
             }
 
             usedPoints = points;
-        }
-
-        internal void DrawChangedField(List<Point> points)
-        {
-            foreach (var point in points)
-            {
-                point.Draw();
-            }
         }
     }
 }

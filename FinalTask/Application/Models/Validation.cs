@@ -86,7 +86,7 @@ namespace Application.Models
             int count = 0;
             row = 0;
 
-            for (int i = y; i >= 0; i--) 
+            for (int i = y; i >= 0; i--)
             {
                 foreach (Point p in usedPoints)
                 {
@@ -106,28 +106,6 @@ namespace Application.Models
                     count = 0;
             }
 
-
-            //foreach (var item in usedPoints)
-            //{
-            //    for (int i = row; i >= 0; i--)
-            //    {
-            //        if (i.Equals(item.Y))
-            //        {
-            //            count++;
-            //            row = i;
-            //            break;
-            //        }
-            //        else
-            //            continue;
-            //    }
-
-            //    if (count >= maxCount)
-            //    {
-            //        answer = true;
-            //        break;
-            //    }
-            //}     
-            
             return answer;
         }
     }

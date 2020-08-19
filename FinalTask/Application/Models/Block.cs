@@ -2,13 +2,12 @@
 using Application.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Application.Models.Shapes
 {
     sealed class Block : IMovements, IDrawClear
     {
-        private int x = BlockConst.StartX;
+        private readonly int x = BlockConst.StartX;
         private int y = BlockConst.StartY;
         private char ch = 'A';
 

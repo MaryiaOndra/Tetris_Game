@@ -8,31 +8,28 @@ using System.Threading;
 
 namespace Application.Models
 {
-    class KeyAction
+    sealed class KeyAction
     {
         public void HandlePressingKey(ConsoleKey consoleKey, Block myBlock, PlayField playField, List<Point> usedPoints, int time)
         {
             int sleepTime = 100;
-            int pauseX = GameConst.LeftCursorPos - GameConst.Pause.Length / 2;
-            int downY = GameConst.WindowHeight - 2;
-            int exitX = GameConst.LeftCursorPos - GameConst.WantExitGame.Length / 2;
+            int pauseX = WindowConst.LeftCursorPos - FrasesConst.Pause.Length / 2;
+            int downY = WindowConst.WindowHeight - 2;
+            int exitX = WindowConst.LeftCursorPos - FrasesConst.WantExitGame.Length / 2;
 
             switch (consoleKey)
             {
                 case ConsoleKey.UpArrow:
                     if (!Validation.IsHitLeftSide(myBlock, playField)
-                        && !Validation.IsHitRightSide(myBlock, playField))
-                        myBlock.RotateBlock();
+                        && !Validation.IsHitRightSide(myBlock, playField)) { myBlock.RotateBlock(); }
                     break;
 
                 case ConsoleKey.LeftArrow:
-                    if (!Validation.IsHitLeftSide(myBlock, playField))
-                        myBlock.MoveLeft();
+                    if (!Validation.IsHitLeftSide(myBlock, playField)) { myBlock.MoveLeft(); }
                     break;
 
                 case ConsoleKey.RightArrow:
-                    if (!Validation.IsHitRightSide(myBlock, playField))
-                        myBlock.MoveRight();
+                    if (!Validation.IsHitRightSide(myBlock, playField)) { myBlock.MoveRight(); }
                     break;
 
                 case ConsoleKey.DownArrow:
@@ -45,20 +42,16 @@ namespace Application.Models
                     break;
 
                 case ConsoleKey.P:
-                    GameConst.Pause.WriteStrInSpecialPlace(pauseX, downY);
+                    FrasesConst.Pause.WriteStrInSpecialPlace(pauseX, downY);
 
                     while (Console.ReadKey(true).Key != ConsoleKey.P) { };
 
-                    GameConst.Pause.CleanStrInSpecialPlace(pauseX, downY);
+                    FrasesConst.Pause.CleanStrInSpecialPlace(pauseX, downY);
 
                     break;
 
                 case ConsoleKey.Escape:
-                    while (GameWindow.QueryYN(GameConst.WantExitGame,
-                        exitX, downY))
-                    {
-                        Environment.Exit(1);
-                    }
+                    while (GameWindow.QueryYN(FrasesConst.WantExitGame, exitX, downY)) { Environment.Exit(1); }
                     break;
 
                 default:

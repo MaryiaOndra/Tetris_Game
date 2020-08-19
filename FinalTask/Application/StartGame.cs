@@ -20,7 +20,7 @@ namespace Application
 
             game.Start();
 
-            while(GameWindow.QueryYN(GameConst.WantTryAgain))
+            while(GameWindow.QueryYN(FrasesConst.WantTryAgain))
             {
                 Console.Clear();
                 game = new TetrisGame();
@@ -34,7 +34,7 @@ namespace Application
 
             Thread.Sleep(3000);
 
-            while (GameWindow.QueryYN(GameConst.WantSendMail))
+            while (GameWindow.QueryYN(FrasesConst.WantSendMail))
             {                
                 scores.SendScoreToMail(gameWindow.QueryForEmail());
                 break;

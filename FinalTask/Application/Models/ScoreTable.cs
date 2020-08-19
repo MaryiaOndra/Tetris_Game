@@ -38,7 +38,7 @@ namespace Application.Models
                     if (i.Equals(lines.Length - 1))
                     {
                         TextWriter text = new StreamWriter(path, true);
-                        place = i + 2;
+                        place = i + 1;
                         text.WriteLine($"\n\t{place}\t\t{name}" + $"{interval}" + $"{score}");
                         text.Close();
                     }
@@ -51,8 +51,8 @@ namespace Application.Models
             Console.Clear();
 
             "Place:".WriteStrInSpecialPlace(5, 5);
-            "Name:".WriteStrInSpecialPlace(25, 5);
-            "Score:".WriteStrInSpecialPlace(45, 5);
+            "Name:".WriteStrInSpecialPlace(23, 5);
+            "Score:".WriteStrInSpecialPlace(47, 5);
 
             string[] lines = File.ReadAllLines(path);
 
@@ -87,8 +87,8 @@ namespace Application.Models
             }
             catch (Exception)
             {
-                int posX = GameConst.WindowWidth / 2 - (ExceptConst.SendMail.Length / 2);
-                int posY = GameConst.WindowHeight / 2;
+                int posX = WindowConst.WindowWidth / 2 - (ExceptConst.SendMail.Length / 2);
+                int posY = WindowConst.WindowHeight / 2;
 
                 Console.Clear();
 

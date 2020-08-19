@@ -1,4 +1,6 @@
-﻿namespace Application.Models
+﻿using System.Collections.Generic;
+
+namespace Application.Models
 {
     sealed class PlayField 
     {
@@ -9,7 +11,6 @@
         public Point[] RightSide { get; private set; }
         public Point[] LeftSide { get; private set; }
         public Point[] BottomSide { get; private set; }
-        public Point[][] Points { get; internal set; }
 
         public PlayField()
         {
@@ -63,6 +64,14 @@
 
             posX = PlayFieldConst.BorderXPos;
             posY = PlayFieldConst.BorderYPos;
+        }
+
+        internal void DrawChangedField(List<Point> points)
+        {
+            foreach (var point in points)
+            {
+                point.Draw();
+            }
         }
     }
 }

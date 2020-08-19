@@ -29,7 +29,7 @@ namespace Application
         public const char EmptySpace = ' ';
     }
 
-    public static class GameConst
+    public static class FrasesConst
     {
         public const string Greeting = @"
         .___________. _______ .___________..______       __       _______.
@@ -50,7 +50,10 @@ namespace Application
         public const string TooLongName = "Please choose name shorter";
         public const string Pause = "# Pause is active, to diactivate press 'P' #";
         public const string Bye = "Goodbye and may the force be with you!";
+    }
 
+    public static class WindowConst 
+    {
         public const int LeftCursorPos = WindowWidth / 2;
         public const int TopCursorPos = WindowHeight / 2;
         public const int WindowWidth = 80;
@@ -60,7 +63,7 @@ namespace Application
     public static class PlayFieldConst
     {
         public const char SymBorder = '#';
-        public const int BorderXPos = (GameConst.WindowWidth - FieldWidth) / 2;
+        public const int BorderXPos = (WindowConst.WindowWidth - FieldWidth) / 2;
         public const int BorderYPos = 1;
         public const int FieldWidth = 18;
         public const int FieldHeight = 20;
