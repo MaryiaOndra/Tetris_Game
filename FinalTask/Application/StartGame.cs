@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Application
 {
-    class TestProgram
+    class StartGame
     {
         static void Main(string[] args)
         {
@@ -37,6 +37,7 @@ namespace Application
             while (GameWindow.QueryYN(GameConst.WantSendMail))
             {                
                 scores.SendScoreToMail(gameWindow.QueryForEmail());
+                break;
             }
 
             gameWindow.SayGoodbye();

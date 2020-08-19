@@ -45,7 +45,7 @@ namespace Application
         public const string WantTryAgain = "Do you want to try one more time? Y/N";
         public const string WantExitGame = "Are you sure you want to quit the game? Y/N";
         public const string EnterEmail = "Please enter your e-mail address: ";
-        public const string InvalidEmail = "This e-mail is iivalid, please try again";
+        public const string InvalidEmail = "This e-mail is invalid, please try again";
         public const string WantSendMail = "Do you want to receive e-mail whith scores? Y/N";
         public const string TooLongName = "Please choose name shorter";
         public const string Pause = "# Pause is active, to diactivate press 'P' #";

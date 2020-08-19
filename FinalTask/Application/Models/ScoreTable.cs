@@ -2,13 +2,14 @@
 using System;
 using System.IO;
 using System.Net.Mail;
+using System.Threading;
 
 namespace Application.Models
 {
     class ScoreTable
     {
         static int place = 1;
-        string path = @"C:\Users\Maria\Source\Repos\ITAcademy_console_TETRIS2\FinalTask\Application\Utility\Scores\scores.txt";
+        string path = @"C:\Users\Maria\Source\Repos\ITAcademy_console_TETRIS5\FinalTask\Application\Utility\Scores\scores.txt";
 
         internal void AddNameToScore(string name, int score)
         {
@@ -49,9 +50,9 @@ namespace Application.Models
         {
             Console.Clear();
 
-            "Name:".WriteStrInSpecialPlace(15, 5);
-            "Score:".WriteStrInSpecialPlace(40, 5);
             "Place:".WriteStrInSpecialPlace(5, 5);
+            "Name:".WriteStrInSpecialPlace(25, 5);
+            "Score:".WriteStrInSpecialPlace(45, 5);
 
             string[] lines = File.ReadAllLines(path);
 
@@ -88,7 +89,12 @@ namespace Application.Models
             {
                 int posX = GameConst.WindowWidth / 2 - (ExceptConst.SendMail.Length / 2);
                 int posY = GameConst.WindowHeight / 2;
+
+                Console.Clear();
+
                 ExceptConst.SendMail.WriteStrInSpecialPlace(posX, posY);
+
+                Thread.Sleep(1000);                
             }     
         }
     }

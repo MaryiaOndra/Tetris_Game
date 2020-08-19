@@ -47,11 +47,7 @@ namespace Application.Models
 
             request.WriteStrInSpecialPlace(posX, posY);
 
-            Console.CursorVisible = true;
-
             email = CheckEmail(posX, posY);
-
-            Console.CursorVisible = false;
 
             return email;
         }
@@ -65,6 +61,8 @@ namespace Application.Models
             {
                 Console.SetCursorPosition(posX, posY + 2);
 
+                Console.CursorVisible = true;
+
                 email = Console.ReadLine();
 
                 if (new EmailAddressAttribute().IsValid(email))
@@ -77,6 +75,8 @@ namespace Application.Models
                     warning.WriteStrInSpecialPlace(posX, posY + 4);
                     email.CleanStrInSpecialPlace(posX, posY + 2);
                 }
+
+                Console.CursorVisible = false;
             }
 
             return email;
@@ -202,6 +202,7 @@ namespace Application.Models
             int posX = GameConst.WindowWidth / 2 - GameConst.Bye.Length / 2;
             int posY = PlayFieldConst.FieldHeight / 2 + 2;
 
+            Console.Clear();
             GameConst.Bye.WriteStrInSpecialPlace(posX, posY);
         }
     }

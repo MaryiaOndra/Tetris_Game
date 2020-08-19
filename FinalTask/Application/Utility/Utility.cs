@@ -11,7 +11,7 @@ namespace Application.Logs
 
         public static void Logger(string message, string methodLocation)
         {
-            string path = @"C:\Users\Maria\Source\Repos\ITAcademy_console_TETRIS2\FinalTask\Application\Utility\Logs\";
+            string path = @"C:\Users\Maria\Source\Repos\ITAcademy_console_TETRIS5\FinalTask\Application\Utility\Logs\";
 
             string fileName = "log" + DateTime.Today.ToString("yyyyMMdd") + $"_[{count}]" + ".txt";
 
