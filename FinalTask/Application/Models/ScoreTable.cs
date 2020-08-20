@@ -9,12 +9,15 @@ namespace Application.Models
     class ScoreTable
     {
         static int place = 0;
-        string path = @"C:\Users\Maria\Source\Repos\ITAcademy_console_TETRIS5\FinalTask\Application\Utility\Scores\scores.txt";
+        //string path = @"C:\Users\Maria\Source\Repos\ITAcademy_console_TETRIS5\FinalTask\Application\Utility\Scores\scores.txt";
+        string directory = Directory.GetCurrentDirectory();
+
 
         internal void AddNameToScore(string name, int score)
         {
             int gap = 25;
             string interval = new string(' ', gap - name.Length);
+            string path = directory + "\\scores.txt";
 
             if (!File.Exists(path))
             {
@@ -50,6 +53,7 @@ namespace Application.Models
         {
             Console.Clear();
 
+            string path = directory + "\\scores.txt";
             "Place:".WriteStrInSpecialPlace(5, 5);
             "Name:".WriteStrInSpecialPlace(23, 5);
             "Score:".WriteStrInSpecialPlace(47, 5);
@@ -65,6 +69,7 @@ namespace Application.Models
         internal bool SendScoreToMail(string email)
         {
             bool answer = true;
+            string path = directory + "\\scores.txt";
 
             Console.Clear();
 
