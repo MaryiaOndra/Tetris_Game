@@ -6,7 +6,7 @@ namespace Application.ExtensionMethods
 {
     public static class StringExtension
     {
-        public static void WriteStrInSpecialPlace(this string str, int posX, int posY) 
+        public static void WriteStrInSpecialPlace(this string str, int posX, int posY)
         {
             Console.SetCursorPosition(posX, posY);
             Console.WriteLine(str);

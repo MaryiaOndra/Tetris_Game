@@ -8,7 +8,7 @@ namespace Application.Models
 {
     class ScoreTable
     {
-        static int place = 1;
+        static int place = 0;
         string path = @"C:\Users\Maria\Source\Repos\ITAcademy_console_TETRIS5\FinalTask\Application\Utility\Scores\scores.txt";
 
         internal void AddNameToScore(string name, int score)
@@ -38,7 +38,7 @@ namespace Application.Models
                     if (i.Equals(lines.Length - 1))
                     {
                         TextWriter text = new StreamWriter(path, true);
-                        place = i + 1;
+                        place = i;
                         text.WriteLine($"\n\t{place}\t\t{name}" + $"{interval}" + $"{score}");
                         text.Close();
                     }
@@ -62,8 +62,10 @@ namespace Application.Models
             }
         }
 
-        internal void SendScoreToMail(string email)
+        internal bool SendScoreToMail(string email)
         {
+            bool answer = true;
+
             Console.Clear();
 
             try
@@ -87,15 +89,19 @@ namespace Application.Models
             }
             catch (Exception)
             {
+                answer = false;
+
                 int posX = WindowConst.WindowWidth / 2 - (ExceptConst.SendMail.Length / 2);
-                int posY = WindowConst.WindowHeight / 2;
+                int posY = WindowConst.WindowHeight / 2 - 2;
 
                 Console.Clear();
 
                 ExceptConst.SendMail.WriteStrInSpecialPlace(posX, posY);
 
                 Thread.Sleep(1000);                
-            }     
+            }
+
+            return answer;
         }
     }
 }

@@ -46,7 +46,8 @@ namespace Application
         public const string WantExitGame = "Are you sure you want to quit the game? Y/N";
         public const string EnterEmail = "Please enter your e-mail address: ";
         public const string InvalidEmail = "This e-mail is invalid, please try again";
-        public const string WantSendMail = "Do you want to receive e-mail whith scores? Y/N";
+        public const string TrySendMailAgain = "Do you want to try send the file with scores again? Y/N";
+        public const string WantSendMail = "Do you want to receive e-mail with scores? Y/N";
         public const string TooLongName = "Please choose name shorter";
         public const string Pause = "# Pause is active, to diactivate press 'P' #";
         public const string Bye = "Goodbye and may the force be with you!";
@@ -71,6 +72,6 @@ namespace Application
 
     public static class ExceptConst
     {
-        public const string SendMail = "Unfortunately, we cannot send a letter to you by mail, goodbye!";
+        public const string SendMail = "Unfortunately, we cannot send a letter to you by mail!";
     }
 }

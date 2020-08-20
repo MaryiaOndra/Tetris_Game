@@ -1,7 +1,5 @@
 ﻿using Application.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace Application
@@ -35,8 +33,16 @@ namespace Application
             Thread.Sleep(3000);
 
             while (GameWindow.QueryYN(FrasesConst.WantSendMail))
-            {                
-                scores.SendScoreToMail(gameWindow.QueryForEmail());
+            {
+                while (!scores.SendScoreToMail(gameWindow.QueryForEmail()))
+                {
+                    if (GameWindow.QueryYN(FrasesConst.TrySendMailAgain))
+                        continue;
+
+                    else
+                        break;
+                }
+
                 break;
             }
 

@@ -52,7 +52,8 @@ namespace Application.Models
             while (true)
             {
                 Console.SetCursorPosition(posX, posY + 2);
-
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.CursorVisible = true;
 
                 email = Console.ReadLine();
 
@@ -66,9 +67,10 @@ namespace Application.Models
                     warning.CleanStrInSpecialPlace(posX, posY + 4);
                     break;
                 }
-
-                Console.CursorVisible = false;
             }
+
+            Console.CursorVisible = false;
+            Console.ForegroundColor = ConsoleColor.Gray;
 
             return email;
         }
@@ -88,8 +90,6 @@ namespace Application.Models
             title.WriteStrInSpecialPlace(titleX, titleY);
             request.WriteStrInSpecialPlace(questX, questY);
 
-            Console.CursorVisible = true;
-
             name = CheckNameLenght(questX, questY);          
 
             return name;
@@ -106,6 +106,7 @@ namespace Application.Models
             while (true)
             {
                 Console.SetCursorPosition(enterX, enterY + 2);
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.CursorVisible = true;
 
                 name = Console.ReadLine().ToString();
@@ -120,9 +121,10 @@ namespace Application.Models
                     warning.WriteStrInSpecialPlace(shortX, shortY);
                     name.CleanStrInSpecialPlace(enterX, enterY + 2);
                 }
-
-                Console.CursorVisible = false;
             }
+
+            Console.CursorVisible = false;
+            Console.ForegroundColor = ConsoleColor.Gray;
 
             return name;
         }

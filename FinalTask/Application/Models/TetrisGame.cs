@@ -33,7 +33,6 @@ namespace Application.Models
             time = 300;
 
             GameInfo.ShowHelpInf();
-            Thread.Sleep(500);
 
             PlayField playField = new PlayField();
 
@@ -69,13 +68,13 @@ namespace Application.Models
 
                 if (countOfPieses >= 10)
                 {
-                    time -= 50;
+                    time -= 60;
                     difficulty++;
                     countOfPieses = 0;  
                     
-                    if (time <= 50)
+                    if (time <= 60)
                     {
-                        time = 50;
+                        time = 30;
                         difficulty = 10;
                     }
                 }
