@@ -26,7 +26,7 @@ namespace Application.Models
 
         public void Start()
         {
-            Utility.Logger(LogConst.StartLog, MethodBase.GetCurrentMethod().ToString());
+            Logger.AddLog(LogConst.StartLog, MethodBase.GetCurrentMethod().ToString());
 
             Score = 0;
             difficulty = 0;
@@ -91,7 +91,7 @@ namespace Application.Models
 
                     Score += 50;
 
-                    Utility.Logger(LogConst.Increase, MethodBase.GetCurrentMethod().ToString());
+                    Logger.AddLog(LogConst.Increase, MethodBase.GetCurrentMethod().ToString());
                 }
 
                 countOfPieses++;

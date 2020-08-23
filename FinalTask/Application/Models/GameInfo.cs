@@ -14,7 +14,7 @@ namespace Application.Models
             int posLeft = WindowConst.WindowWidth / 2 - text.Length / 2;
             int posTop = PlayFieldConst.FieldHeight / 2;
 
-            Utility.Logger(LogConst.FinishLog, MethodBase.GetCurrentMethod().ToString());
+            Logger.AddLog(LogConst.FinishLog, MethodBase.GetCurrentMethod().ToString());
 
             Console.ForegroundColor = ConsoleColor.Red;
             Console.SetCursorPosition(posLeft, posTop);

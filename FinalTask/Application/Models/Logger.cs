@@ -5,13 +5,12 @@ using System.Net.Mail;
 
 namespace Application.Logs
 {
-    public class Utility
+    public class Logger
     {
         private static int count = 0;
 
-        public static void Logger(string message, string methodLocation)
-        {
-            //string path = @"C:\Users\Maria\Source\Repos\ITAcademy_console_TETRIS5\FinalTask\Application\Utility\Logs\";
+        public static void AddLog(string message, string methodLocation)
+        {            
             string path = Directory.GetCurrentDirectory();
 
             string fileName = "log" + DateTime.Today.ToString("yyyyMMdd") + $"_[{count}]" + ".txt";
