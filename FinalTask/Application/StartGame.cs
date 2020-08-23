@@ -48,6 +48,8 @@ namespace Application
 
             gameWindow.SayGoodbye();
 
+            Console.Read();
+
             Environment.Exit(1);
         }
     }

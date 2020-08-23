@@ -194,11 +194,16 @@ namespace Application.Models
         internal void SayGoodbye()
         {
             int posX = WindowConst.WindowWidth / 2 - FrasesConst.Bye.Length / 2;
-            int posY = PlayFieldConst.FieldHeight / 2 + 2;
+            int exitX = WindowConst.WindowWidth / 2 - FrasesConst.PressToExit.Length / 2;
+            int posY = PlayFieldConst.FieldHeight / 2;
 
             Console.Clear();
 
+            Console.ForegroundColor = ConsoleColor.Yellow;
             FrasesConst.Bye.WriteStrInSpecialPlace(posX, posY);
+
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            FrasesConst.PressToExit.WriteStrInSpecialPlace(exitX, posY + 2);
         }
     }
 }

@@ -47,6 +47,7 @@
         public const string TooLongName = "Please choose name shorter";
         public const string Pause = "# Pause is active, to diactivate press 'P' #";
         public const string Bye = "Goodbye and may the force be with you!";
+        public const string PressToExit = "*press any key to exit the application*";
     }
 
     public static class WindowConst 
