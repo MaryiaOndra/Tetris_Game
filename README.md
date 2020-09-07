@@ -4,7 +4,7 @@ After some time the speed of falling blocks will increase.
 Also, I added the ability to see all scores and send them to the player’s e-mail.
 
 ## Design:
-the TTETRIS game is representent in two visual ouput:
+the TETRIS game is representent in two visual ouput:
 * black\white with alphabet chars of blocks in the branch 'develop';
 * colored whith filled chars of blocks in the branch 'charBlock';
 
