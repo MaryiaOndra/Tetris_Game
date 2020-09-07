@@ -15,7 +15,8 @@ namespace Application.Models
         private int row;
         private KeyAction keyAction = new KeyAction();
 
-        private static int numOfBlock, nextNumOfBlock = 0;
+        private static int numOfBlock = 9;
+        private static int nextNumOfBlock;
         private static int numOfChar = BlockConst.StartNumChar;
         private static int nextNumOfChar;
         private static int difficulty;
@@ -38,6 +39,8 @@ namespace Application.Models
 
             while (!gameOver)
             {
+                Console.ForegroundColor = ConsoleColor.Gray;
+
                 GameInfo.ShowGameInf(Score, difficulty);
 
                 GameInfo.ShowNextFigure(numOfBlock, numOfChar, out nextNumOfBlock, out nextNumOfChar);
@@ -87,6 +90,7 @@ namespace Application.Models
                 while(Validation.IsFullLines(usedPoints, out row))
                 {
                     DeleteFullLine(usedPoints);
+
                     playField.DrawChangedField(usedPoints);
 
                     Score += 50;

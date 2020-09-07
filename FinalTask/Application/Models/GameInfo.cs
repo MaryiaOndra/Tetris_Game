@@ -56,7 +56,7 @@ namespace Application.Models
             oldBlock.RelocateBlock();
 
             Random random = new Random();
-            nextNumOfBlock = random.Next(6);
+            nextNumOfBlock = random.Next(9, 15);
             nextNumOfChar = random.Next(BlockConst.RangeChar) + BlockConst.StartNumChar;
 
             nextBlock.CreateBlock(nextNumOfBlock, nextNumOfChar);
