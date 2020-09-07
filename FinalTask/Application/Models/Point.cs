@@ -9,7 +9,6 @@ namespace Application.Models
         public int X { get; private set; }
         public int Y { get; private set; }
         public char Char { get; private set; }
-        public ConsoleColor Color { get; private set; } = ConsoleColor.Gray;
 
         public Point() { }
 
@@ -20,14 +19,6 @@ namespace Application.Models
             Char = ch;
         }
 
-        public Point(int x, int y, char ch, ConsoleColor color)
-        {
-            X = x;
-            Y = y;
-            Char = ch;
-            Color = color;
-        }
-
         public void Clear()
         {
             Console.SetCursorPosition(X, Y);
@@ -36,10 +27,8 @@ namespace Application.Models
 
         public void Draw()
         {
-            Console.ForegroundColor = Color;
             Console.SetCursorPosition(X, Y);
             Console.Write(Char);
-            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void MoveRight()

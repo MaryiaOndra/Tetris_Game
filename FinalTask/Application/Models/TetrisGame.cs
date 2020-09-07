@@ -39,8 +39,6 @@ namespace Application.Models
 
             while (!gameOver)
             {
-                Console.ForegroundColor = ConsoleColor.Gray;
-
                 GameInfo.ShowGameInf(Score, difficulty);
 
                 GameInfo.ShowNextFigure(numOfBlock, numOfChar, out nextNumOfBlock, out nextNumOfChar);
