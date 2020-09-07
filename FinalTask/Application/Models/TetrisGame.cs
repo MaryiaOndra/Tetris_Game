@@ -17,8 +17,6 @@ namespace Application.Models
 
         private static int numOfBlock = 9;
         private static int nextNumOfBlock;
-        private static int numOfChar = BlockConst.StartNumChar;
-        private static int nextNumOfChar;
         private static int difficulty;
         private static int countOfPieses;
         private static int time = 300;
@@ -43,9 +41,9 @@ namespace Application.Models
 
                 GameInfo.ShowGameInf(Score, difficulty);
 
-                GameInfo.ShowNextFigure(numOfBlock, numOfChar, out nextNumOfBlock, out nextNumOfChar);
+                GameInfo.ShowNextFigure(numOfBlock, out nextNumOfBlock);
 
-                myBlock.CreateBlock(numOfBlock, numOfChar);
+                myBlock.CreateBlock(numOfBlock);
 
                 myBlock.Draw();
 
@@ -100,7 +98,6 @@ namespace Application.Models
 
                 countOfPieses++;
                 numOfBlock = nextNumOfBlock;
-                numOfChar = nextNumOfChar;
             }
 
             GameInfo.ShowGameOver();
@@ -110,7 +107,7 @@ namespace Application.Models
         internal void DeleteFullLine(List<Point> points)
         {
             Console.SetCursorPosition(PlayFieldConst.BorderXPos + 1, row);
-            Console.WriteLine(new string('$', PlayFieldConst.FieldWidth - 1));
+            Console.WriteLine(new string('╬', PlayFieldConst.FieldWidth - 1));
             Thread.Sleep(300);
 
             foreach (var item in points)

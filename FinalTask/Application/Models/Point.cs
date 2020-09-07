@@ -8,7 +8,7 @@ namespace Application.Models
 
         public int X { get; private set; }
         public int Y { get; private set; }
-        private char Char { get; } = '■';
+        public char Char { get; private set; } = '▓';
         public ConsoleColor Color { get; private set; } = ConsoleColor.Gray;
 
         public Point() { }
@@ -20,11 +20,10 @@ namespace Application.Models
             Char = ch;
         }
 
-        public Point(int x, int y, char ch, ConsoleColor color)
+        public Point(int x, int y, ConsoleColor color)
         {
             X = x;
             Y = y;
-            Char = ch;
             Color = color;
         }
 

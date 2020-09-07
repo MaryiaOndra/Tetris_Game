@@ -60,7 +60,7 @@
 
     public static class PlayFieldConst
     {
-        public const char SymBorder = '#';
+        public const char SymBorder = '░';
         public const int BorderXPos = (WindowConst.WindowWidth - FieldWidth) / 2;
         public const int BorderYPos = 1;
         public const int FieldWidth = 18;

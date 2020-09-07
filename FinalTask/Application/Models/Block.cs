@@ -2,7 +2,6 @@
 using Application.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 
 namespace Application.Models.Shapes
 {
@@ -79,45 +78,13 @@ namespace Application.Models.Shapes
 
         private ConsoleColor ChangeBlockColor(int numOfBlock) 
         {
-            ConsoleColor color = ConsoleColor.Red;
-
-            switch (numOfBlock)
-            {
-                case (int)ConsoleColor.Blue:
-                    color = ConsoleColor.Blue;
-                    break;              
-                
-                case (int)ConsoleColor.Cyan:
-                    color = ConsoleColor.Cyan;
-                    break;   
-                    
-                case (int)ConsoleColor.Green:
-                    color = ConsoleColor.Green;
-                    break; 
-                    
-                case (int)ConsoleColor.Red:
-                    color = ConsoleColor.Red;
-                    break;  
-                    
-                case (int)ConsoleColor.Magenta:
-                    color = ConsoleColor.Magenta;
-                    break;  
-                    
-                case (int)ConsoleColor.Yellow:
-                    color = ConsoleColor.Yellow;
-                    break;    
-                    
-                case (int)ConsoleColor.White:
-                    color = ConsoleColor.White;
-                    break;
-            }
+            ConsoleColor color = (ConsoleColor)numOfBlock;
 
             return color;
         }
 
-        internal void CreateBlock(int numOfBlock, int numOfChar)
+        internal void CreateBlock(int numOfBlock)
         {
-            ch = Convert.ToChar(numOfChar);
             ConsoleColor color = ChangeBlockColor(numOfBlock);
 
             Console.ForegroundColor = color;
@@ -127,70 +94,70 @@ namespace Application.Models.Shapes
                 case (int)TetrominoNames.T:
                     newBlock = new List<Point>
                     {
-                        new Point(x, y, ch, color),
-                        new Point(x, y + 1, ch, color),
-                        new Point(x + 1, y + 1, ch, color),
-                        new Point(x, y + 2, ch, color)
+                        new Point(x, y, color),
+                        new Point(x, y + 1, color),
+                        new Point(x + 1, y + 1, color),
+                        new Point(x, y + 2, color)
                     };
                     break;
 
                 case (int)TetrominoNames.J:
                     newBlock = new List<Point>
                     {
-                        new Point(x, y, ch, color),
-                        new Point(x, y + 1, ch, color),
-                        new Point(x, y + 2, ch, color),
-                        new Point(x - 1, y + 2, ch, color)
+                        new Point(x, y, color),
+                        new Point(x, y + 1, color),
+                        new Point(x, y + 2, color),
+                        new Point(x - 1, y + 2, color)
                     };
                     break;
 
                 case (int)TetrominoNames.O:
                     newBlock = new List<Point>
                     {
-                        new Point(x, y, ch, color),
-                        new Point(x + 1, y, ch, color),
-                        new Point(x, y + 1, ch, color),
-                        new Point(x + 1, y + 1, ch, color)
+                        new Point(x, y, color),
+                        new Point(x + 1, y, color),
+                        new Point(x, y + 1, color),
+                        new Point(x + 1, y + 1, color)
                     };
                     break;
 
                 case (int)TetrominoNames.I:
                     newBlock = new List<Point>
                     {
-                        new Point(x, y, ch, color),
-                        new Point(x, y + 1, ch, color),
-                        new Point(x, y + 2, ch, color),
-                        new Point(x, y + 3, ch, color)
+                        new Point(x, y, color),
+                        new Point(x, y + 1, color),
+                        new Point(x, y + 2, color),
+                        new Point(x, y + 3, color)
                     };
                     break;
 
                 case (int)TetrominoNames.L:
                     newBlock = new List<Point>
                     {
-                        new Point(x, y, ch, color),
-                        new Point(x, y + 1, ch, color),
-                        new Point(x, y + 2, ch, color),
-                        new Point(x + 1, y + 2, ch, color)
+                        new Point(x, y, color),
+                        new Point(x, y + 1, color),
+                        new Point(x, y + 2, color),
+                        new Point(x + 1, y + 2, color)
                     };
                     break;
 
                 case (int)TetrominoNames.S:
                     newBlock = new List<Point>
                     {
-                        new Point(x, y, ch, color),
-                        new Point(x + 1, y, ch, color),
-                        new Point(x, y + 1, ch, color),
-                        new Point(x - 1, y + 1, ch, color)
+                        new Point(x, y, color),
+                        new Point(x + 1, y, color),
+                        new Point(x, y + 1, color),
+                        new Point(x - 1, y + 1, color)
                     };
                     break;
 
                 case (int)TetrominoNames.Z:
                     newBlock = new List<Point>
                     {
-                        new Point(x, y, ch, color),
-                        new Point(x - 1, y, ch, color),
-                        new Point(x, y + 1, ch, color),
-                        new Point(x + 1, y + 1, ch, color)
+                        new Point(x, y, color),
+                        new Point(x - 1, y, color),
+                        new Point(x, y + 1, color),
+                        new Point(x + 1, y + 1, color)
                     };
                     break;
 

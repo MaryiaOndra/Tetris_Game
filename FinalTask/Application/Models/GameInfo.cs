@@ -47,19 +47,18 @@ namespace Application.Models
                 "\n\n\tCancel the game: \n\tESC");
         }
 
-        internal static void ShowNextFigure(int numOfBlock, int numOfChar, out int nextNumOfBlock, out int nextNumOfChar)
+        internal static void ShowNextFigure(int numOfBlock, out int nextNumOfBlock)
         {
             Block oldBlock = new Block();
             Block nextBlock = new Block();
 
-            oldBlock.CreateBlock(numOfBlock, numOfChar);
+            oldBlock.CreateBlock(numOfBlock);
             oldBlock.RelocateBlock();
 
             Random random = new Random();
             nextNumOfBlock = random.Next(9, 15);
-            nextNumOfChar = random.Next(BlockConst.RangeChar) + BlockConst.StartNumChar;
-
-            nextBlock.CreateBlock(nextNumOfBlock, nextNumOfChar);
+            
+            nextBlock.CreateBlock(nextNumOfBlock);
             nextBlock.RelocateBlock();
 
             oldBlock.Clear();
